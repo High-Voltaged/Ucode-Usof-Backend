@@ -1,0 +1,7 @@
+{
+  "trailingComma": "none",
+  "doubleQuote": true,
+  "arrowParens": "always",
+  "printWidth": 120,
+  "endOfLine": "auto"
+}
