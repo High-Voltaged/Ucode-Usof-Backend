@@ -3,8 +3,6 @@ const cors = require("cors");
 const cookieParser = require("cookie-parser");
 const router = require("~/routes");
 
-require("dotenv").config();
-
 const serverInit = (app) => {
   app.use(express.json());
   app.use(express.urlencoded({ extended: true }));

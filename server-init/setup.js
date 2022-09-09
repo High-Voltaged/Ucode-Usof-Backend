@@ -1,6 +1,6 @@
 const serverInit = require("~/server-init/init");
 const logger = require("~/logger/logger");
-const databaseInit = require("~/server-init/database");
+const databaseInit = require("~/database/init");
 
 const serverSetup = async (app) => {
   serverInit(app);
