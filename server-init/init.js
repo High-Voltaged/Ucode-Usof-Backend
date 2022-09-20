@@ -4,6 +4,8 @@ const cookieParser = require("cookie-parser");
 const router = require("~/routes");
 
 const serverInit = (app) => {
+  app.use("/", router);
+
   app.use(express.json());
   app.use(express.urlencoded({ extended: true }));
   app.use(cookieParser());
@@ -12,11 +14,9 @@ const serverInit = (app) => {
       origin: process.env.CLIENT_URL,
       credentials: true,
       methods: "GET, POST, PATCH, DELETE",
-      allowedHeaders: "Content-Type, Authorization"
-    })
+      allowedHeaders: "Content-Type, Authorization",
+    }),
   );
-
-  app.use("/", router);
 };
 
 module.exports = serverInit;

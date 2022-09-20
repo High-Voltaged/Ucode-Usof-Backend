@@ -13,12 +13,17 @@
     "prettier": "2.5.1"
   },
   "dependencies": {
+    "@adminjs/express": "^5.0.0",
+    "@adminjs/sequelize": "^3.0.0",
+    "adminjs": "^6.2.3",
     "bcrypt": "^5.0.1",
     "cookie-parser": "^1.4.6",
     "cors": "^2.8.5",
     "dotenv": "^10.0.0",
     "email-templates": "^10.0.0",
     "express": "^4.17.1",
+    "express-formidable": "^1.2.0",
+    "express-session": "^1.17.3",
     "jsonwebtoken": "^8.5.1",
     "module-alias": "^2.2.2",
     "mysql2": "^2.3.3",
