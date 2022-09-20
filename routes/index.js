@@ -1,9 +1,8 @@
 const express = require("express");
-const { options, adminRouter } = require("~/routes/admin");
+const authRouter = require("~/routes/auth");
 
 const router = express.Router();
 
-router.use(options.rootPath, adminRouter);
-// router.use("/api");
+router.use("/api/auth", authRouter);
 
 module.exports = router;
