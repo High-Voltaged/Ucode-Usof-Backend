@@ -1,0 +1,7 @@
+extends index 
+block title
+    h1 Your email needs to be confirmed
+block description
+    p #{login}, please take a second to make sure we have got your email right:
+    a(href=`${process.env.CLIENTSIDE_URL}/?confirmToken=${confirmToken}`) Confirm your email
+    p This link is only available for an hour.

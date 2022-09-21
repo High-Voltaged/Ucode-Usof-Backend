@@ -18,8 +18,13 @@ const isPasswordCorrect = async (password, originalPassword) => {
   return await bcrypt.compare(password, originalPassword);
 };
 
+const hashPassword = async (password) => {
+  return await bcrypt.hash(password, 12);
+};
+
 module.exports = {
   isPassWithinLimits,
   arePasswordsMatched,
   isPasswordCorrect,
+  hashPassword,
 };

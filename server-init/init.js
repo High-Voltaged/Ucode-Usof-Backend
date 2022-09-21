@@ -12,10 +12,12 @@ const serverInit = (app) => {
 
   app.use("/", router);
 
+  app.set("view engine", "pug");
+
   app.use(cookieParser());
   app.use(
     cors({
-      origin: process.env.CLIENT_URL,
+      origin: process.env.CLIENTSIDE_URL,
       credentials: true,
       methods: "GET, POST, PATCH, DELETE",
       allowedHeaders: "Content-Type, Authorization",
