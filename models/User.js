@@ -45,9 +45,10 @@ User.init(
         },
       },
     },
-    // avatar: {
-    //   type: DataTypes.STRING,
-    // }
+    avatar: {
+      type: DataTypes.STRING,
+      defaultValue: null,
+    },
     rating: {
       type: DataTypes.INTEGER,
       allowNull: false,
