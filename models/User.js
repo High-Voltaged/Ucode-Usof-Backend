@@ -65,9 +65,7 @@ User.init(
   },
   {
     sequelize,
-    modelName: "User",
-    createdAt: "created_at",
-    updatedAt: "updated_at",
+    modelName: "user",
   },
 );
 

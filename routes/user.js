@@ -1,5 +1,6 @@
 const express = require("express");
 const {
+  getUsers,
   getUser,
   updateUser,
   deleteUser,
@@ -12,6 +13,7 @@ const errorBoundary = require("~/middleware/error-boundary");
 
 const router = express.Router();
 
+router.get("/", errorBoundary(getUsers));
 router.get("/:userId", errorBoundary(getUser));
 
 router.use(authMiddleware);

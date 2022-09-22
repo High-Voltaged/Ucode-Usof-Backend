@@ -1,12 +1,12 @@
 const AdminJS = require("adminjs");
 const AdminJSExpress = require("@adminjs/express");
 const { Database, Resource } = require("@adminjs/sequelize");
-const { User } = require("~/models");
+const { User, Post, Category, Like, Comment } = require("~/models");
 
 AdminJS.registerAdapter({ Database, Resource });
 
 const ADMIN_OPTIONS = {
-  resources: [User],
+  resources: [User, Post, Category, Comment, Like],
   branding: {
     companyName: "UcodeQAPlatform",
     // logo: "https://yt3.ggpht.com/-OHYrig1wHfY/AAAAAAAAAAI/AAAAAAAAAC0/hO4PnXj_Zps/s288-mo-c-c0xffffffff-rj-k-no/photo.jpg",

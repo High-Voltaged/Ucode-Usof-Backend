@@ -13,6 +13,15 @@ class UserService {
     return result;
   }
 
+  static async getUsers() {
+    const users = await User.findAll();
+
+    const result = users.map((user) =>
+      UserService.getAllowedData(user.dataValues, "fullName", "login", "email", "rating"),
+    );
+    return result;
+  }
+
   static async getUser(id) {
     const user = await User.findOne({ where: { id } });
     if (!user) {

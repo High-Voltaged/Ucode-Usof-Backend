@@ -4,6 +4,12 @@ const UserService = require("~/services/user");
 const multerUpload = require("~/utils/multer");
 const ServerError = require("~/utils/errors");
 
+const getUsers = async (_req, res) => {
+  const users = await UserService.getUsers();
+
+  res.json(users);
+};
+
 const getUser = async (req, res) => {
   const { userId } = req.params;
 
@@ -54,6 +60,7 @@ const updateUserPhoto = async (req, res) => {
 };
 
 module.exports = {
+  getUsers,
   getUser,
   updateUser,
   deleteUser,

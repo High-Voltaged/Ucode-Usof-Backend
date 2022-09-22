@@ -9,3 +9,5 @@
 .adminjs
 
 npm-debug.log*
+
+public/images/users
