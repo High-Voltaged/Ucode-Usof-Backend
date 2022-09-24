@@ -1,15 +1,22 @@
 const { LIKE_ATTRS } = require("~/consts/query-attrs");
-const { Like, Post } = require("~/models");
+const { Like, Post, User } = require("~/models");
 
 class LikeService {
   static async getPostLikes(postId) {
     const likes = await Like.findAll({
       attributes: LIKE_ATTRS,
-      include: {
-        model: Post,
-        attributes: [],
-        where: { id: postId },
-      },
+      include: [
+        {
+          model: Post,
+          attributes: [],
+          where: { id: postId },
+          required: true,
+        },
+        {
+          model: User,
+          attributes: [],
+        },
+      ],
     });
 
     return likes;

@@ -11,7 +11,7 @@ const COMMENT_ATTRS = ["id", "author", ...USER_JOIN_ATTRS, "publishDate", "conte
 
 const CATEGORY_ATTRS = ["id", "title", "content"];
 
-const LIKE_ATTRS = ["id", "type", "author", "publishDate"];
+const LIKE_ATTRS = ["id", "type", "author", ...USER_JOIN_ATTRS, "publishDate"];
 
 const USER_ATTRS = ["id", "fullName", "login", "email", "rating", "avatar"];
 
