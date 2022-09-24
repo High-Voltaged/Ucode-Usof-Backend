@@ -74,13 +74,16 @@ class PostService {
     );
   }
 
-  static async updatePost(postId, title, content, categories) {
+  static async updatePost(postId, data) {
     const post = await PostService.getPost(postId);
 
-    await post.update({
-      title,
-      content,
-    });
+    const { categories, ...dataToUpdate } = data;
+
+    await post.update(dataToUpdate);
+
+    if (!categories || !categories.length) {
+      return;
+    }
 
     const postCategories = await CategoryService.getCategoriesByPostID(postId);
     const postcategoryIds = postCategories.map((c) => c.id);

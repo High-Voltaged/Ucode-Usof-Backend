@@ -7,13 +7,22 @@ const { getPost, updatePost, deletePost, postExistenceCheck, postAuthorValidatio
 
 const authMiddleware = require("~/middleware/auth");
 const errorBoundary = require("~/middleware/error-boundary");
+const validate = require("~/middleware/validation");
+const { createCommentSchema } = require("~/validation/comment");
+const { updatePostSchema } = require("~/validation/post");
 
 const router = express.Router({ mergeParams: true });
 
 router.use(errorBoundary(postExistenceCheck));
 
 router.get("/", errorBoundary(getPost));
-router.patch("/", authMiddleware, errorBoundary(postAuthorValidation), errorBoundary(updatePost));
+router.patch(
+  "/",
+  authMiddleware,
+  validate(updatePostSchema),
+  errorBoundary(postAuthorValidation),
+  errorBoundary(updatePost),
+);
 router.delete(
   "/",
   authMiddleware,
@@ -23,7 +32,7 @@ router.delete(
 );
 
 router.get("/comments", errorBoundary(getPostComments));
-router.post("/comments", authMiddleware, errorBoundary(createPostComment));
+router.post("/comments", authMiddleware, validate(createCommentSchema), errorBoundary(createPostComment));
 
 router.get("/categories", errorBoundary(getPostCategories));
 

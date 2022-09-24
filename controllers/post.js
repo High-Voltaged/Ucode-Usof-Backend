@@ -22,9 +22,9 @@ const createPost = async (req, res) => {
 };
 
 const updatePost = async (req, res) => {
-  const { title, content, categories } = req.body;
+  const data = req.body;
   const { postId } = req.params;
-  await PostService.updatePost(postId, title, content, categories);
+  await PostService.updatePost(postId, data);
 
   res.sendStatus(204);
 };
