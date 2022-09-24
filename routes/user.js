@@ -19,7 +19,7 @@ router.get("/:userId", errorBoundary(getUser));
 router.use(authMiddleware);
 
 router.patch("/", errorBoundary(updateUser));
-router.patch("/avatar", uploadPhoto, resizeAndSavePhoto, errorBoundary(updateUserPhoto));
+router.patch("/avatar", errorBoundary(uploadPhoto), errorBoundary(resizeAndSavePhoto), errorBoundary(updateUserPhoto));
 router.delete("/", errorBoundary(deleteUser));
 
 module.exports = router;

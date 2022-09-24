@@ -1,8 +1,6 @@
-const sharp = require("sharp");
-const path = require("path");
-const UserService = require("~/services/user");
 const multerUpload = require("~/utils/multer");
-const ServerError = require("~/utils/errors");
+const UserService = require("~/services/user");
+const UploadService = require("~/services/uploads");
 
 const getUsers = async (_req, res) => {
   const users = await UserService.getUsers();
@@ -34,19 +32,10 @@ const deleteUser = async (req, res) => {
 
 const uploadPhoto = multerUpload.single("photo");
 
-const resizeAndSavePhoto = async (req, res, next) => {
-  if (!req.file) {
-    next(new ServerError(500, "Error saving the file."));
-  }
+const resizeAndSavePhoto = async (req, _res, next) => {
+  const { id } = req.user;
 
-  req.file.filename = `avatar-${Date.now()}-${req.user.id}.jpeg`;
-  const filePath = path.resolve(`public/images/users/${req.file.filename}`);
-
-  await sharp(req.file.buffer)
-    .resize(600, 600)
-    // .toFormat("jpeg")
-    // .jpeg({ quality: 90 })
-    .toFile(filePath);
+  req.file = await UploadService.resizeAndSaveAvatar(req.file, id);
 
   next();
 };
