@@ -18,13 +18,14 @@ class CategoryService {
     });
   }
 
-  static async getCategoriesByPostID(postId) {
+  static async getCategoriesByPostID(postId, options) {
     const categories = await CategoryService.getCategories({
       include: {
         model: Post,
         attributes: [],
         where: { id: postId },
       },
+      ...options,
     });
 
     return categories;

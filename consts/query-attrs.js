@@ -1,9 +1,8 @@
 const { Sequelize } = require("sequelize");
 
 const USER_JOIN_ATTRS = [
-  [Sequelize.literal("user.id"), "userId"],
-  [Sequelize.literal("user.login"), "userLogin"],
-  [Sequelize.literal("user.avatar"), "userAvatar"],
+  [Sequelize.literal("user.login"), "authorLogin"],
+  [Sequelize.literal("user.avatar"), "authorAvatar"],
 ];
 
 const POST_ATTRS = ["id", "author", ...USER_JOIN_ATTRS, "publishDate", "title", "content", "status"];
