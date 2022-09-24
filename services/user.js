@@ -1,7 +1,6 @@
 const { USER_ATTRS } = require("~/consts/query-attrs");
 const { User } = require("~/models");
 const ServerError = require("~/utils/errors");
-const fieldFilter = require("~/utils/field-filter");
 
 class UserService {
   static async getUsers() {
@@ -18,13 +17,11 @@ class UserService {
   }
 
   static async updateUser(id, data) {
-    const dataToUpdate = fieldFilter(data, "fullName", "login", "email");
-    await User.update(dataToUpdate, { where: { id } });
+    await User.update(data, { where: { id } });
   }
 
   static async updateUserPhoto(id, filename) {
-    const dataToUpdate = fieldFilter({ avatar: filename }, "avatar");
-    await User.update(dataToUpdate, { where: { id } });
+    await User.update({ avatar: filename }, { where: { id } });
   }
 
   static async deleteUser(id) {

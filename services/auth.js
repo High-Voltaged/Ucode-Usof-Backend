@@ -17,7 +17,6 @@ class AuthService {
     }
 
     arePasswordsMatched(password, passwordConfirm);
-    isPassWithinLimits(password);
 
     const hashedPassword = await hashPassword(password);
 
@@ -68,8 +67,6 @@ class AuthService {
     if (!userData) {
       throw new ServerError(400, "The reset token is invalid or has expired.");
     }
-
-    isPassWithinLimits(password);
 
     const { id } = userData;
     const hashedPassword = await hashPassword(password);

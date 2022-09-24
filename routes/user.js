@@ -1,6 +1,5 @@
 const express = require("express");
 const {
-  getUsers,
   getUser,
   updateUser,
   deleteUser,
@@ -10,15 +9,16 @@ const {
 } = require("~/controllers/user");
 const authMiddleware = require("~/middleware/auth");
 const errorBoundary = require("~/middleware/error-boundary");
+const validate = require("~/middleware/validation");
+const { updateSchema } = require("~/validation/user");
 
-const router = express.Router();
+const router = express.Router({ mergeParams: true });
 
-router.get("/", errorBoundary(getUsers));
-router.get("/:userId", errorBoundary(getUser));
+router.get("/", errorBoundary(getUser));
 
 router.use(authMiddleware);
 
-router.patch("/", errorBoundary(updateUser));
+router.patch("/", validate(updateSchema), errorBoundary(updateUser));
 router.patch("/avatar", errorBoundary(uploadPhoto), errorBoundary(resizeAndSavePhoto), errorBoundary(updateUserPhoto));
 router.delete("/", errorBoundary(deleteUser));
 
