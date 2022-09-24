@@ -3,6 +3,7 @@ const Post = require("~/models/Post");
 const Category = require("~/models/Category");
 const Comment = require("~/models/Comment");
 const Like = require("~/models/Like");
+const PostCategories = require("~/models/PostCategories");
 // const Token = require("~/models/Token");
 
 const authorOptions = { foreignKey: "author" };
@@ -10,8 +11,8 @@ const authorOptions = { foreignKey: "author" };
 User.hasMany(Post, authorOptions);
 Post.belongsTo(User, authorOptions);
 
-Category.belongsToMany(Post, { through: "postCategories" });
-Post.belongsToMany(Category, { through: "postCategories" });
+Category.belongsToMany(Post, { through: PostCategories });
+Post.belongsToMany(Category, { through: PostCategories });
 
 Post.hasMany(Comment);
 Comment.belongsTo(Post);
@@ -37,4 +38,5 @@ module.exports = {
   Category,
   Comment,
   Like,
+  PostCategories,
 };
