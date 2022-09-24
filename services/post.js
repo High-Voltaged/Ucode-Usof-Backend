@@ -16,7 +16,7 @@ class PostService {
 
   static async checkPostAuthor(postId, authorID) {
     const post = await PostService.getPost(postId);
-    if (authorID !== post.dataValues.userId) {
+    if (authorID !== post.dataValues.author) {
       throw new ServerError(401, "You don't have the rights to edit nor remove this post.");
     }
   }

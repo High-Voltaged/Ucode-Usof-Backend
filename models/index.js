@@ -14,7 +14,7 @@ Post.belongsTo(User, authorOptions);
 Category.belongsToMany(Post, { through: PostCategories });
 Post.belongsToMany(Category, { through: PostCategories });
 
-Post.hasMany(Comment);
+Post.hasMany(Comment, { onDelete: "CASCADE" });
 Comment.belongsTo(Post);
 
 User.hasMany(Comment, authorOptions);
@@ -23,10 +23,10 @@ Comment.belongsTo(User, authorOptions);
 User.hasMany(Like, authorOptions);
 Like.belongsTo(User, authorOptions);
 
-Comment.hasMany(Like);
+Comment.hasMany(Like, { onDelete: "CASCADE" });
 Like.belongsTo(Comment);
 
-Post.hasMany(Like);
+Post.hasMany(Like, { onDelete: "CASCADE" });
 Like.belongsTo(Post);
 
 // User.hasOne(Token);
