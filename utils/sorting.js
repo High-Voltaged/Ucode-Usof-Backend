@@ -1,5 +1,5 @@
 const { Sequelize } = require("sequelize");
-const { SORT_BY, SORT_ORDER } = require("~/consts/query");
+const { SORT_BY, SORT_ORDER } = require("~/consts/sequelize");
 const { Like } = require("~/models");
 
 const getSortOptions = (sort) => {

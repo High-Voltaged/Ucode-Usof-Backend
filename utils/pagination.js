@@ -1,4 +1,4 @@
-const { DEFAULT_POSTS_LIMIT, DEFAULT_CURR_PAGE } = require("~/consts/query");
+const { DEFAULT_POSTS_LIMIT, DEFAULT_CURR_PAGE } = require("~/consts/sequelize");
 
 const getPageParams = (page, customLimit) => {
   const limit = Number(customLimit) || DEFAULT_POSTS_LIMIT;

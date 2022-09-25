@@ -1,4 +1,4 @@
-const { SORT_BY } = require("~/consts/query");
+const { SORT_BY } = require("~/consts/sequelize");
 const { STATUS_ENUM, DATE_FORMAT } = require("~/consts/validation");
 
 const Joi = require("joi").extend(require("@joi/date"));
