@@ -1,5 +1,5 @@
 const bcrypt = require("bcrypt");
-const ServerError = require("./errors");
+const ServerError = require("~/utils/errors");
 
 const arePasswordsMatched = (password, passwordConfirm) => {
   if (password !== passwordConfirm) {

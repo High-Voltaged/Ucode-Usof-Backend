@@ -1,7 +1,6 @@
 const express = require("express");
 const { register, login, logout, sendResetPasswordEmail, updatePassword, confirmEmail } = require("~/controllers/auth");
-const errorBoundary = require("~/middleware/error-boundary");
-const validate = require("~/middleware/validation");
+const { errorBoundary, validate } = require("~/middleware");
 const { registerSchema, loginSchema, passwordResetSchema, sendEmailSchema } = require("~/validation/user");
 
 const router = express.Router();

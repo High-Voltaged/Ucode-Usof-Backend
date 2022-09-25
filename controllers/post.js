@@ -1,7 +1,8 @@
 const PostService = require("~/services/post");
 
-const getPosts = async (_req, res) => {
-  const posts = await PostService.getPosts();
+const getPosts = async (req, res) => {
+  const { page, limit, ...filters } = req.query;
+  const posts = await PostService.getPosts(page, limit, filters);
 
   res.json(posts);
 };

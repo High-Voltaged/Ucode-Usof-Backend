@@ -3,18 +3,18 @@ const { Comment, User } = require("~/models");
 
 class CommentService {
   static async getCommentsByPostID(postId) {
-    const comments = await Comment.findAll({
+    const include = [
+      {
+        model: User,
+        attributes: [],
+      },
+    ];
+
+    return await Comment.findAll({
       attributes: COMMENT_ATTRS,
-      include: [
-        {
-          model: User,
-          attributes: [],
-        },
-      ],
+      include,
       where: { postId },
     });
-
-    return comments;
   }
 
   static async createComment(postId, content, author) {

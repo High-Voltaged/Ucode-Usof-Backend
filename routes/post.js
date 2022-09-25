@@ -4,10 +4,8 @@ const { getPostCategories } = require("~/controllers/category");
 const { getPostComments, createPostComment } = require("~/controllers/comment");
 const { getPostLikes } = require("~/controllers/like");
 const { getPost, updatePost, deletePost, postExistenceCheck, postAuthorValidation } = require("~/controllers/post");
+const { errorBoundary, authMiddleware, validate } = require("~/middleware");
 
-const authMiddleware = require("~/middleware/auth");
-const errorBoundary = require("~/middleware/error-boundary");
-const validate = require("~/middleware/validation");
 const { createCommentSchema } = require("~/validation/comment");
 const { updatePostSchema } = require("~/validation/post");
 

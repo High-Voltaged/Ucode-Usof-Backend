@@ -1,7 +1,7 @@
 const express = require("express");
-const errorBoundary = require("~/middleware/error-boundary");
 const userRouter = require("~/routes/user");
 const { getUsers } = require("~/controllers/user");
+const { errorBoundary } = require("~/middleware");
 
 const router = express.Router();
 

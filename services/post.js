@@ -1,10 +1,10 @@
-const { Sequelize } = require("sequelize");
 const { POST_ATTRS } = require("~/consts/query-attrs");
-const { LIKES_ENUM, STATUS_ENUM } = require("~/consts/validation");
 const sequelize = require("~/database");
-const { Post, User, Like } = require("~/models");
+const { Post, User } = require("~/models");
+const CategoryService = require("~/services/category");
 const ServerError = require("~/utils/errors");
-const CategoryService = require("./category");
+const { getPageParams, getPageData } = require("~/utils/pagination");
+const getFilters = require("~/utils/filtering");
 
 class PostService {
   static async checkIfPostExists(id) {
@@ -21,43 +21,48 @@ class PostService {
     }
   }
 
-  static async getPosts() {
-    const likesCount = [Sequelize.literal("COUNT(likes.id)"), "likesCount"];
-    const posts = await Post.findAll({
-      attributes: [...POST_ATTRS, likesCount],
-      include: [
-        {
-          model: User,
-          attributes: [],
-          required: true,
-        },
-        {
-          model: Like,
-          where: { type: LIKES_ENUM[0] },
-          attributes: [],
-          required: false,
-        },
-      ],
-      where: { status: STATUS_ENUM[0] },
-      group: ["id"],
-      order: [["likesCount", "DESC"]],
+  static async getPosts(page, customLimit, options) {
+    const { limit, offset } = getPageParams(page, customLimit);
+
+    const { categories, ...filters } = getFilters(options);
+
+    const include = [
+      {
+        model: User,
+        attributes: [],
+        required: true,
+      },
+    ];
+
+    categories && include.push(categories);
+
+    const posts = await Post.findAndCountAll({
+      limit,
+      offset,
+      distinct: true,
+      attributes: POST_ATTRS,
+      include,
+      where: filters,
+      // subQuery: false,
     });
 
-    return posts;
+    const pagination = getPageData(posts.count, page, limit);
+    return { posts: posts.rows, ...pagination };
   }
 
   static async getPost(id) {
-    const post = await Post.findByPk(id, {
+    const include = [
+      {
+        model: User,
+        attributes: [],
+        required: true,
+      },
+    ];
+
+    return await Post.findByPk(id, {
       attributes: POST_ATTRS,
-      include: [
-        {
-          model: User,
-          attributes: [],
-          required: true,
-        },
-      ],
+      include,
     });
-    return post;
   }
 
   static async createPost(title, content, categories, author) {
@@ -74,7 +79,7 @@ class PostService {
       await Promise.all(
         categories.map(async (cID) => {
           const category = await CategoryService.getCategory(cID);
-          post.addCategory(category, { transaction: t });
+          await post.addCategory(category, { transaction: t });
         }),
       );
     });
@@ -100,7 +105,7 @@ class PostService {
             return;
           }
           const category = await CategoryService.getCategory(cID);
-          post.addCategory(category);
+          await post.addCategory(category);
         }),
       );
     });

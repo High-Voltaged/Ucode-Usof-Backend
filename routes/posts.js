@@ -1,14 +1,14 @@
 const express = require("express");
+const { RESOURCES } = require("~/consts/utils");
 const { getPosts, createPost } = require("~/controllers/post");
-const authMiddleware = require("~/middleware/auth");
-const errorBoundary = require("~/middleware/error-boundary");
-const validate = require("~/middleware/validation");
+const { validate, authMiddleware, errorBoundary } = require("~/middleware");
 const postRouter = require("~/routes/post");
+const querySchema = require("~/validation/query");
 const { createPostSchema } = require("~/validation/post");
 
 const router = express.Router();
 
-router.get("/", errorBoundary(getPosts));
+router.get("/", validate(querySchema, RESOURCES.query), errorBoundary(getPosts));
 router.post("/", authMiddleware, validate(createPostSchema), errorBoundary(createPost));
 
 router.use("/:postId", postRouter);
