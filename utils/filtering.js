@@ -6,7 +6,6 @@ const getCategoryFilter = (categories) => {
   const cIds = Array.isArray(categories) ? categories : [categories];
   let ids = cIds.map((c) => Number(c));
 
-  console.log(ids);
   const filter = {
     model: Category,
     attributes: [],
@@ -19,12 +18,14 @@ const getCategoryFilter = (categories) => {
 
 const getDateFilter = (dateStart, dateEnd) => {
   const filters = {};
+
   if (dateStart) {
     filters[Op.gte] = dateStart;
   }
   if (dateEnd) {
     filters[Op.lte] = dateEnd;
   }
+
   return filters;
 };
 

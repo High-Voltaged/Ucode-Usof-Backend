@@ -18,7 +18,4 @@ const createPostComment = async (req, res) => {
   res.sendStatus(204);
 };
 
-module.exports = {
-  getPostComments,
-  createPostComment,
-};
+module.exports = { getPostComments, createPostComment };

@@ -8,6 +8,4 @@ const getPostCategories = async (req, res) => {
   res.json(categories);
 };
 
-module.exports = {
-  getPostCategories,
-};
+module.exports = { getPostCategories };

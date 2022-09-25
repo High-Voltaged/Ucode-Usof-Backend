@@ -1,10 +1,13 @@
-const { POST_ATTRS } = require("~/consts/query-attrs");
 const sequelize = require("~/database");
 const { Post, User } = require("~/models");
+const { POST_ATTRS } = require("~/consts/query-attrs");
+
 const CategoryService = require("~/services/category");
 const ServerError = require("~/utils/errors");
+
 const { getPageParams, getPageData } = require("~/utils/pagination");
 const getFilters = require("~/utils/filtering");
+const getSortOptions = require("~/utils/sorting");
 
 class PostService {
   static async checkIfPostExists(id) {
@@ -24,7 +27,9 @@ class PostService {
   static async getPosts(page, customLimit, options) {
     const { limit, offset } = getPageParams(page, customLimit);
 
-    const { categories, ...filters } = getFilters(options);
+    const { sort, ...filters } = options;
+    const { categories, ...where } = getFilters(filters);
+    const { order, include: likes, attrs, group } = getSortOptions(sort);
 
     const include = [
       {
@@ -35,18 +40,21 @@ class PostService {
     ];
 
     categories && include.push(categories);
+    likes && include.push(likes);
 
     const posts = await Post.findAndCountAll({
       limit,
       offset,
       distinct: true,
-      attributes: POST_ATTRS,
+      attributes: [...POST_ATTRS, ...attrs],
       include,
-      where: filters,
-      // subQuery: false,
+      where,
+      group,
+      order,
+      subQuery: false,
     });
 
-    const pagination = getPageData(posts.count, page, limit);
+    const pagination = getPageData(posts.count.length, page, limit);
     return { posts: posts.rows, ...pagination };
   }
 

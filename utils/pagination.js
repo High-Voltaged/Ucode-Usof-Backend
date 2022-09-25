@@ -1,4 +1,4 @@
-const { DEFAULT_POSTS_LIMIT, DEFAULT_CURR_PAGE } = require("~/consts/utils");
+const { DEFAULT_POSTS_LIMIT, DEFAULT_CURR_PAGE } = require("~/consts/query");
 
 const getPageParams = (page, customLimit) => {
   const limit = Number(customLimit) || DEFAULT_POSTS_LIMIT;

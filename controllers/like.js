@@ -8,6 +8,4 @@ const getPostLikes = async (req, res) => {
   res.json(likes);
 };
 
-module.exports = {
-  getPostLikes,
-};
+module.exports = { getPostLikes };
