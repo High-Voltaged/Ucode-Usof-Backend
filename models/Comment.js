@@ -15,7 +15,7 @@ Comment.init(
   {
     sequelize,
     modelName: "comment",
-    updatedAt: "publishDate",
+    createdAt: "publishDate",
   },
 );
 

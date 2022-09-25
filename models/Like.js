@@ -19,7 +19,7 @@ Like.init(
   {
     sequelize,
     modelName: "like",
-    updatedAt: "publishDate",
+    createdAt: "publishDate",
   },
 );
 

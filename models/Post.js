@@ -21,7 +21,7 @@ Post.init(
   {
     sequelize,
     modelName: "post",
-    updatedAt: "publishDate",
+    createdAt: "publishDate",
   },
 );
 
