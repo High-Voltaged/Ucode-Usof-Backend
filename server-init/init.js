@@ -17,7 +17,7 @@ const serverInit = (app) => {
   app.use(cookieParser());
   app.use(
     cors({
-      origin: process.env.CLIENTSIDE_URL,
+      origin: process.env.CLIENT_URL,
       credentials: true,
       methods: "GET, POST, PATCH, DELETE",
       allowedHeaders: "Content-Type, Authorization",

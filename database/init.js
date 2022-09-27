@@ -4,8 +4,8 @@ const logger = require("~/logger/logger");
 const sequelize = require("~/database");
 
 const createDBIfNotExists = async () => {
-  const { host, user, password, database } = config;
-  const connection = await mysql.createConnection({ host, user, password });
+  const { host, port, user, password, database } = config;
+  const connection = await mysql.createConnection({ host, port, user, password });
   await connection.query(`CREATE DATABASE IF NOT EXISTS ${database};`);
 };
 
