@@ -9,6 +9,6 @@ const router = express.Router();
 router.use("/api/auth", authRouter);
 router.use("/api/users", userRouter);
 router.use("/api/posts", postRouter);
-router.use("/api/comments/:commentId", commentRouter);
+router.use("/api/comments/:id", commentRouter);
 
 module.exports = router;

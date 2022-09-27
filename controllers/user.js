@@ -1,6 +1,7 @@
 const multerUpload = require("~/utils/multer");
-const UserService = require("~/services/user");
-const UploadService = require("~/services/uploads");
+const { User } = require("~/models");
+const { UserService, FactoryService, UploadsService } = require("~/services");
+const { existenceCheck } = require("~/controllers/factory");
 
 const getUsers = async (_req, res) => {
   const users = await UserService.getUsers();
@@ -9,23 +10,25 @@ const getUsers = async (_req, res) => {
 };
 
 const getUser = async (req, res) => {
-  const { userId } = req.params;
+  const { id } = req.params;
 
-  const user = await UserService.getUser(userId);
+  const user = await UserService.getUser(id);
 
   res.json(user);
 };
 
 const updateUser = async (req, res) => {
   const data = req.body;
+  const { id } = req.user;
 
-  await UserService.updateUser(req.user.id, data);
+  await FactoryService.updateOne(User, id, data);
 
   res.sendStatus(204);
 };
 
 const deleteUser = async (req, res) => {
-  await UserService.deleteUser(req.user.id);
+  const { id } = req.user;
+  await FactoryService.deleteOne(User, id);
 
   res.sendStatus(204);
 };
@@ -35,7 +38,7 @@ const uploadPhoto = multerUpload.single("photo");
 const resizeAndSavePhoto = async (req, _res, next) => {
   const { id } = req.user;
 
-  req.file = await UploadService.resizeAndSaveAvatar(req.file, id);
+  req.file = await UploadsService.resizeAndSaveAvatar(req.file, id);
 
   next();
 };
@@ -48,6 +51,8 @@ const updateUserPhoto = async (req, res) => {
   res.sendStatus(204);
 };
 
+const userExistenceCheck = existenceCheck(User);
+
 module.exports = {
   getUsers,
   getUser,
@@ -56,4 +61,5 @@ module.exports = {
   uploadPhoto,
   resizeAndSavePhoto,
   updateUserPhoto,
+  userExistenceCheck,
 };

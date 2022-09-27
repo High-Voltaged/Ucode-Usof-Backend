@@ -3,28 +3,12 @@ const { Post, User } = require("~/models");
 const { POST_ATTRS } = require("~/consts/query-attrs");
 
 const CategoryService = require("~/services/category");
-const ServerError = require("~/utils/errors");
 
 const { getPageParams, getPageData } = require("~/utils/pagination");
 const getFilters = require("~/utils/filtering");
 const getSortOptions = require("~/utils/sorting");
 
 class PostService {
-  static async checkIfPostExists(id) {
-    const post = await Post.findByPk(id);
-    if (!post) {
-      throw new ServerError(404, `A post with the ${id} id was not found.`);
-    }
-  }
-
-  static async checkPostAuthor(postId, authorID) {
-    const post = await PostService.getPost(postId);
-    if (authorID !== post.dataValues.author) {
-      throw new ServerError(401, "You don't have the rights to edit nor remove this post.");
-    }
-    return post;
-  }
-
   static async getPosts(page, customLimit, options) {
     const { limit, offset } = getPageParams(page, customLimit);
 
@@ -32,13 +16,7 @@ class PostService {
     const { categories, ...where } = getFilters(filters);
     const { order, include: likes, attrs, group } = getSortOptions(sort);
 
-    const include = [
-      {
-        model: User,
-        attributes: [],
-        required: true,
-      },
-    ];
+    const include = [{ model: User, attributes: [], required: true }];
 
     categories && include.push(categories);
     likes && include.push(likes);
@@ -60,13 +38,7 @@ class PostService {
   }
 
   static async getPost(id) {
-    const include = [
-      {
-        model: User,
-        attributes: [],
-        required: true,
-      },
-    ];
+    const include = [{ model: User, attributes: [], required: true }];
 
     return await Post.findByPk(id, {
       attributes: POST_ATTRS,
@@ -74,16 +46,9 @@ class PostService {
     });
   }
 
-  static async createPost(title, content, categories, author) {
+  static async createPost(data, categories) {
     await sequelize.transaction(async (t) => {
-      const post = await Post.create(
-        {
-          title,
-          content,
-          author,
-        },
-        { transaction: t },
-      );
+      const post = await Post.create(data, { transaction: t });
 
       await Promise.all(
         categories.map(async (cID) => {
@@ -118,10 +83,6 @@ class PostService {
         }),
       );
     });
-  }
-
-  static async deletePost(id) {
-    await Post.destroy({ where: { id } });
   }
 }
 

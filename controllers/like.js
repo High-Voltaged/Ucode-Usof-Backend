@@ -1,8 +1,8 @@
 const { LIKE_ENTITIES } = require("~/consts/sequelize");
-const LikeService = require("~/services/like");
+const { LikeService } = require("~/services");
 
 const getLikes = (entity) => async (req, res) => {
-  const id = req.params[`${entity}Id`];
+  const { id } = req.params;
   const likeEntity = LIKE_ENTITIES[entity](id);
 
   const likes = await LikeService.getLikes(likeEntity);
@@ -11,7 +11,7 @@ const getLikes = (entity) => async (req, res) => {
 };
 
 const createLike = (entity) => async (req, res) => {
-  const id = req.params[`${entity}Id`];
+  const { id } = req.params;
   const { id: userId } = req.user;
   const { type } = req.body;
   const likeEntity = LIKE_ENTITIES[entity](id);
@@ -22,7 +22,7 @@ const createLike = (entity) => async (req, res) => {
 };
 
 const deleteLike = (entity) => async (req, res) => {
-  const id = req.params[`${entity}Id`];
+  const { id } = req.params;
   const { id: userId } = req.user;
   const likeEntity = LIKE_ENTITIES[entity](id);
 

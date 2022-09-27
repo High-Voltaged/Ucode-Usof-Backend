@@ -21,10 +21,7 @@ class LikeService {
           where: { id: entity.value },
           required: true,
         },
-        {
-          model: User,
-          attributes: [],
-        },
+        { model: User, attributes: [] },
       ],
     });
 

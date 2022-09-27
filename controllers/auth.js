@@ -1,6 +1,5 @@
 const { ACCESS_TOKEN, COOKIE_OPTIONS } = require("~/consts/requests");
-const AuthService = require("~/services/auth");
-const TokenService = require("~/services/token");
+const { AuthService, TokenService } = require("~/services");
 
 const register = async (req, res) => {
   const { login, email, fullName, password, passwordConfirm } = req.body;

@@ -1,5 +1,5 @@
 const { User } = require("~/models");
-const TokenService = require("~/services/token");
+const { TokenService } = require("~/services");
 const ServerError = require("~/utils/errors");
 
 const authMiddleware = async (req, res, next) => {

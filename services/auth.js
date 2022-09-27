@@ -1,6 +1,6 @@
 const { User } = require("~/models");
 const ServerError = require("~/utils/errors");
-const { isPassWithinLimits, arePasswordsMatched, isPasswordCorrect, hashPassword } = require("~/utils/password");
+const { arePasswordsMatched, isPasswordCorrect, hashPassword } = require("~/utils/password");
 const TokenService = require("~/services/token");
 const EmailService = require("~/services/email");
 const emailSubjects = require("~/consts/emails");

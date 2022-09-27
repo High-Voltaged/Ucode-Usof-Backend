@@ -11,6 +11,6 @@ const router = express.Router();
 router.get("/", validate(querySchema, RESOURCES.query), errorBoundary(getPosts));
 router.post("/", authMiddleware, validate(createPostSchema), errorBoundary(createPost));
 
-router.use("/:postId", postRouter);
+router.use("/:id", postRouter);
 
 module.exports = router;

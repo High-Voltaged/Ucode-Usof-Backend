@@ -1,4 +1,6 @@
-const PostService = require("~/services/post");
+const { Post } = require("~/models");
+const { PostService } = require("~/services");
+const { existenceCheck, authorValidation, deleteOne } = require("~/controllers/factory");
 
 const getPosts = async (req, res) => {
   const { page, limit, ...filters } = req.query;
@@ -8,51 +10,33 @@ const getPosts = async (req, res) => {
 };
 
 const getPost = async (req, res) => {
-  const { postId } = req.params;
-  const post = await PostService.getPost(postId);
+  const { id } = req.params;
+  const post = await PostService.getPost(id);
 
   res.json(post);
 };
 
 const createPost = async (req, res) => {
-  const { title, content, categories } = req.body;
-  const { id } = req.user;
-  const post = await PostService.createPost(title, content, categories, id);
+  const { categories, ...data } = req.body;
+  const { id: author } = req.user;
+  const post = await PostService.createPost({ author, ...data }, categories);
 
   res.json(post);
 };
 
 const updatePost = async (req, res) => {
   const data = req.body;
-  const { postId } = req.params;
-  await PostService.updatePost(postId, data);
+  const { id } = req.params;
+  await PostService.updatePost(id, data);
 
   res.sendStatus(204);
 };
 
-const deletePost = async (req, res) => {
-  const { postId } = req.params;
-  await PostService.deletePost(postId);
+const deletePost = deleteOne(Post);
 
-  res.sendStatus(204);
-};
+const postExistenceCheck = existenceCheck(Post);
 
-const postExistenceCheck = async (req, _res, next) => {
-  const { postId } = req.params;
-
-  await PostService.checkIfPostExists(postId);
-
-  next();
-};
-
-const postAuthorValidation = async (req, _res, next) => {
-  const { postId } = req.params;
-  const { id } = req.user;
-
-  await PostService.checkPostAuthor(postId, id);
-
-  next();
-};
+const postAuthorValidation = authorValidation(Post);
 
 module.exports = {
   getPosts,

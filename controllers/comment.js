@@ -1,61 +1,38 @@
-const CommentService = require("~/services/comment");
+const { Comment } = require("~/models");
+const { authorValidation, existenceCheck, updateOne, deleteOne } = require("~/controllers/factory");
+const { CommentService, FactoryService } = require("~/services");
 
 const getComment = async (req, res) => {
-  const { commentId } = req.params;
-  const comment = await CommentService.getComment(commentId);
+  const { id } = req.params;
+  const comment = await CommentService.getComment(id);
 
   res.json(comment);
 };
 
-const updateComment = async (req, res) => {
-  const data = req.body;
-  const { commentId } = req.params;
-  await CommentService.updateComment(commentId, data);
-
-  res.sendStatus(204);
-};
-
-const deleteComment = async (req, res) => {
-  const { commentId } = req.params;
-  await CommentService.deleteComment(commentId);
-
-  res.sendStatus(204);
-};
-
 const getPostComments = async (req, res) => {
-  const { postId } = req.params;
+  const { id } = req.params;
 
-  const comments = await CommentService.getCommentsByPostID(postId);
+  const comments = await CommentService.getCommentsByPostID(id);
 
   res.json(comments);
 };
 
 const createPostComment = async (req, res) => {
-  const { postId } = req.params;
-  const { id } = req.user;
+  const { id: postId } = req.params;
+  const { id: author } = req.user;
   const data = req.body;
 
-  await CommentService.createComment(postId, data, id);
+  await FactoryService.createOne(Comment, { postId, author, ...data });
 
   res.sendStatus(204);
 };
 
-const commentExistenceCheck = async (req, _res, next) => {
-  const { commentId } = req.params;
+const updateComment = updateOne(Comment);
+const deleteComment = deleteOne(Comment);
 
-  await CommentService.checkIfCommentExists(commentId);
+const commentExistenceCheck = existenceCheck(Comment);
 
-  next();
-};
-
-const commentAuthorValidation = async (req, _res, next) => {
-  const { commentId } = req.params;
-  const { id } = req.user;
-
-  await CommentService.checkCommentAuthor(commentId, id);
-
-  next();
-};
+const commentAuthorValidation = authorValidation(Comment);
 
 module.exports = {
   getComment,

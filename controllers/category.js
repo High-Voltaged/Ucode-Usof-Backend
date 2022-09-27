@@ -1,4 +1,4 @@
-const CategoryService = require("~/services/category");
+const { CategoryService } = require("~/services");
 
 const getPostCategories = async (req, res) => {
   const { postId } = req.params;

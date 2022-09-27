@@ -6,6 +6,7 @@ const {
   uploadPhoto,
   resizeAndSavePhoto,
   updateUserPhoto,
+  userExistenceCheck,
 } = require("~/controllers/user");
 const authMiddleware = require("~/middleware/auth");
 const errorBoundary = require("~/middleware/error-boundary");
@@ -13,6 +14,8 @@ const validate = require("~/middleware/validation");
 const { updateSchema } = require("~/validation/user");
 
 const router = express.Router({ mergeParams: true });
+
+router.use(errorBoundary(userExistenceCheck));
 
 router.get("/", errorBoundary(getUser));
 

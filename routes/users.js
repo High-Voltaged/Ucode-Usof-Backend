@@ -7,6 +7,6 @@ const router = express.Router();
 
 router.get("/", errorBoundary(getUsers));
 
-router.use("/:userId", userRouter);
+router.use("/:id", userRouter);
 
 module.exports = router;
