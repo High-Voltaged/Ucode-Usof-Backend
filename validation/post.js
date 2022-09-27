@@ -1,19 +1,15 @@
 const Joi = require("joi");
-const {
-  errors: { NULL_BODY_FIELD },
-} = require("~/consts/validation");
+const { CONTENT_LIMITS, TITLE_LIMITS } = require("~/consts/validation");
 
 const createPostSchema = Joi.object().keys({
-  title: Joi.string().required(NULL_BODY_FIELD("title")),
-  content: Joi.string().required(NULL_BODY_FIELD("content")),
-  categories: Joi.array()
-    .required(NULL_BODY_FIELD("categories"))
-    .items(Joi.number().required(NULL_BODY_FIELD("category id"))),
+  title: Joi.string().required().min(TITLE_LIMITS[0]).max(TITLE_LIMITS[1]),
+  content: Joi.string().required().min(CONTENT_LIMITS[0]).max(CONTENT_LIMITS[1]),
+  categories: Joi.array().required().items(Joi.number().required()),
 });
 
 const updatePostSchema = Joi.object().keys({
-  title: Joi.string(),
-  content: Joi.string(),
+  title: Joi.string().min(TITLE_LIMITS[0]).max(TITLE_LIMITS[1]),
+  content: Joi.string().min(CONTENT_LIMITS[0]).max(CONTENT_LIMITS[1]),
   categories: Joi.array().items(Joi.number()),
 });
 

@@ -1,27 +1,24 @@
 const Joi = require("joi");
-const {
-  errors: { NULL_BODY_FIELD },
-  PASSWORD_LIMITS,
-} = require("~/consts/validation");
+const { PASSWORD_LIMITS, NAME_LIMITS } = require("~/consts/validation");
 
 const loginSchema = Joi.object().keys({
-  login: Joi.string().required(NULL_BODY_FIELD("login")),
-  email: Joi.string().email().required(NULL_BODY_FIELD("email")),
-  password: Joi.string().required(NULL_BODY_FIELD("password")),
+  login: Joi.string().required(),
+  email: Joi.string().email().required(),
+  password: Joi.string().required(),
 });
 
 const registerSchema = Joi.object().keys({
-  login: Joi.string().required(NULL_BODY_FIELD("login")),
-  email: Joi.string().email().required(NULL_BODY_FIELD("email")),
-  fullName: Joi.string(),
-  password: Joi.string().required(NULL_BODY_FIELD("password")).min(PASSWORD_LIMITS[0]).max(PASSWORD_LIMITS[1]),
-  passwordConfirm: Joi.string().required(NULL_BODY_FIELD("passwordConfirm")),
+  login: Joi.string().required().min(NAME_LIMITS[0]).max(NAME_LIMITS[1]),
+  email: Joi.string().email().required(),
+  fullName: Joi.string().min(NAME_LIMITS[0]).max(NAME_LIMITS[1]),
+  password: Joi.string().required().min(PASSWORD_LIMITS[0]).max(PASSWORD_LIMITS[1]),
+  passwordConfirm: Joi.string().required(),
 });
 
 const updateSchema = Joi.object().keys({
-  login: Joi.string(),
+  login: Joi.string().min(NAME_LIMITS[0]).max(NAME_LIMITS[1]),
   email: Joi.string().email(),
-  fullName: Joi.string(),
+  fullName: Joi.string().min(NAME_LIMITS[0]).max(NAME_LIMITS[1]),
 });
 
 const passwordResetSchema = Joi.object().keys({

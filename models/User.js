@@ -16,10 +16,7 @@ User.init(
       allowNull: false,
       unique: true,
       validate: {
-        len: {
-          msg: `The login must be in the range of [${NAME_LIMITS.join(", ")}] characters.`,
-          args: NAME_LIMITS,
-        },
+        len: { args: NAME_LIMITS },
       },
     },
     password: {
@@ -30,20 +27,13 @@ User.init(
       type: DataTypes.STRING,
       allowNull: false,
       validate: {
-        len: {
-          msg: `The full name must be in the range of [${NAME_LIMITS.join(", ")}] characters.`,
-          args: NAME_LIMITS,
-        },
+        len: { args: NAME_LIMITS },
       },
     },
     email: {
       type: DataTypes.STRING,
       allowNull: false,
-      validate: {
-        isEmail: {
-          msg: `The proper email format is: test@gmail.com`,
-        },
-      },
+      validate: { isEmail: true },
     },
     avatar: {
       type: DataTypes.STRING,

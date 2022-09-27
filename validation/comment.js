@@ -1,11 +1,8 @@
 const Joi = require("joi");
-const {
-  errors: { NULL_BODY_FIELD },
-  STATUS_ENUM,
-} = require("~/consts/validation");
+const { STATUS_ENUM, CONTENT_LIMITS } = require("~/consts/validation");
 
 const createCommentSchema = Joi.object().keys({
-  content: Joi.string().required(NULL_BODY_FIELD("content")),
+  content: Joi.string().required().min(CONTENT_LIMITS[0]).max(CONTENT_LIMITS[1]),
   status: Joi.string().valid(...STATUS_ENUM),
 });
 
