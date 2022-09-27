@@ -11,7 +11,7 @@ Category.init(
       autoIncrement: true,
     },
     title: DataTypes.STRING,
-    content: DataTypes.STRING,
+    description: DataTypes.STRING,
   },
   {
     sequelize,

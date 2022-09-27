@@ -9,7 +9,7 @@ const POST_ATTRS = ["id", "author", ...USER_JOIN_ATTRS, "publishDate", "title", 
 
 const COMMENT_ATTRS = ["id", "author", ...USER_JOIN_ATTRS, "publishDate", "content"];
 
-const CATEGORY_ATTRS = ["id", "title", "content"];
+const CATEGORY_ATTRS = ["id", "title", "description"];
 
 const LIKE_ATTRS = ["id", "type", "author", ...USER_JOIN_ATTRS, "publishDate"];
 

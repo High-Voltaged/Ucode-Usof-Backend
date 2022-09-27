@@ -8,10 +8,10 @@ class LikeService {
     if (!like) {
       throw new ServerError(401, "You can not access this like.");
     }
+    return like;
   }
 
   static async getLikes(entity) {
-    console.log(models);
     const likes = await Like.findAll({
       attributes: LIKE_ATTRS,
       include: [
@@ -54,7 +54,8 @@ class LikeService {
   }
 
   static async deleteLike(author, entity) {
-    await Like.destroy({ where: { author, [entity.key]: entity.value } });
+    const like = await LikeService.checkLikeAuthor(entity, author);
+    await like.destroy();
   }
 }
 

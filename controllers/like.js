@@ -1,44 +1,34 @@
 const { LIKE_ENTITIES } = require("~/consts/sequelize");
 const LikeService = require("~/services/like");
 
-const getPostLikes = async (req, res) => {
-  const { postId } = req.params;
-  const entity = LIKE_ENTITIES.POST(postId);
+const getLikes = (entity) => async (req, res) => {
+  const id = req.params[`${entity}Id`];
+  const likeEntity = LIKE_ENTITIES[entity](id);
 
-  const likes = await LikeService.getLikes(entity);
+  const likes = await LikeService.getLikes(likeEntity);
 
   res.json(likes);
 };
 
-const createLike = async (req, res) => {
-  const { postId } = req.params;
-  const { id } = req.user;
+const createLike = (entity) => async (req, res) => {
+  const id = req.params[`${entity}Id`];
+  const { id: userId } = req.user;
   const { type } = req.body;
-  const entity = LIKE_ENTITIES.POST(postId);
+  const likeEntity = LIKE_ENTITIES[entity](id);
 
-  await LikeService.createLike(id, type, entity);
-
-  res.sendStatus(204);
-};
-
-const deleteLike = async (req, res) => {
-  const { postId } = req.params;
-  const { id } = req.user;
-  const entity = LIKE_ENTITIES.POST(postId);
-
-  await LikeService.deleteLike(id, entity);
+  await LikeService.createLike(userId, type, likeEntity);
 
   res.sendStatus(204);
 };
 
-const likeAuthorValidation = async (req, res, next) => {
-  const { postId } = req.params;
-  const { id } = req.user;
-  const entity = LIKE_ENTITIES.POST(postId);
+const deleteLike = (entity) => async (req, res) => {
+  const id = req.params[`${entity}Id`];
+  const { id: userId } = req.user;
+  const likeEntity = LIKE_ENTITIES[entity](id);
 
-  await LikeService.checkLikeAuthor(entity, id);
+  await LikeService.deleteLike(userId, likeEntity);
 
-  next();
+  res.sendStatus(204);
 };
 
-module.exports = { getPostLikes, createLike, deleteLike, likeAuthorValidation };
+module.exports = { getLikes, createLike, deleteLike };

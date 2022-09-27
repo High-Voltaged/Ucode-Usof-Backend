@@ -22,6 +22,7 @@ class PostService {
     if (authorID !== post.dataValues.author) {
       throw new ServerError(401, "You don't have the rights to edit nor remove this post.");
     }
+    return post;
   }
 
   static async getPosts(page, customLimit, options) {

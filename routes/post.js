@@ -1,8 +1,11 @@
 const express = require("express");
+const {
+  LIKE_ENTITY_NAMES: { post },
+} = require("~/consts/sequelize");
 
 const { getPostCategories } = require("~/controllers/category");
 const { getPostComments, createPostComment } = require("~/controllers/comment");
-const { getPostLikes, createLike, deleteLike, likeAuthorValidation } = require("~/controllers/like");
+const { createLike, deleteLike, getLikes } = require("~/controllers/like");
 const { getPost, updatePost, deletePost, postExistenceCheck, postAuthorValidation } = require("~/controllers/post");
 const { errorBoundary, authMiddleware, validate } = require("~/middleware");
 
@@ -17,16 +20,18 @@ router.use(errorBoundary(postExistenceCheck));
 router.get("/", errorBoundary(getPost));
 router.get("/comments", errorBoundary(getPostComments));
 router.get("/categories", errorBoundary(getPostCategories));
-router.get("/like", errorBoundary(getPostLikes));
+router.get("/like", errorBoundary(getLikes(post)));
 
 router.use(authMiddleware);
 
-router.patch("/", validate(updatePostSchema), errorBoundary(postAuthorValidation), errorBoundary(updatePost));
-router.delete("/", errorBoundary(postAuthorValidation), errorBoundary(deletePost));
-
 router.post("/comments", validate(createCommentSchema), errorBoundary(createPostComment));
 
-router.post("/like", validate(createLikeSchema), errorBoundary(createLike));
-router.delete("/like", errorBoundary(likeAuthorValidation), errorBoundary(deleteLike));
+router.post("/like", validate(createLikeSchema), errorBoundary(createLike(post)));
+router.delete("/like", errorBoundary(deleteLike(post)));
+
+router.use(errorBoundary(postAuthorValidation));
+
+router.patch("/", validate(updatePostSchema), errorBoundary(updatePost));
+router.delete("/", errorBoundary(deletePost));
 
 module.exports = router;
