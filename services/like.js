@@ -32,19 +32,10 @@ class LikeService {
     return await Like.findOne({ where: { author, [entity.key]: entity.value } });
   }
 
-  // static async updateLikeType(like) {
-  //   const isLike = like.type === LIKES_ENUM[0];
-  //   await like.update({
-  //     type: isLike ? LIKES_ENUM[1] : LIKES_ENUM[0],
-  //   });
-  // }
-
   static async createLike(author, type, entity) {
     const like = await LikeService.getLike(author, entity);
     if (like) {
       throw new ServerError(400, "You can not like/dislike more than once.");
-      // await this.updateLikeType(like);
-      // return;
     }
 
     await Like.create({ type, [entity.key]: entity.value, author });

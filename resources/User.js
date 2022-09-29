@@ -1,6 +1,6 @@
 const { ADMIN_TAB_NAME } = require("~/consts/utils");
 const { User } = require("~/models");
-const beforeEdit = require("~/utils/edit-action");
+const { beforeEdit } = require("~/utils/admin-before-hooks");
 
 const NO_EDIT_PROPS = ["password"];
 

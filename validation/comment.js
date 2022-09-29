@@ -8,7 +8,6 @@ const createCommentSchema = Joi.object().keys({
 
 const updateCommentSchema = Joi.object().keys({
   status: Joi.string().valid(...STATUS_ENUM),
-  // content: Joi.string(),
 });
 
 module.exports = { createCommentSchema, updateCommentSchema };
