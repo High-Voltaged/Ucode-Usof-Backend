@@ -1,6 +1,6 @@
 const sequelize = require("~/database");
 const { DataTypes, Model } = require("sequelize");
-const { ROLES_ENUM, NAME_LIMITS } = require("~/consts/validation");
+const { ROLES_ENUM, NAME_LIMITS, RANGE_ERROR } = require("~/consts/validation");
 const { hashPassword } = require("~/utils/password");
 
 class User extends Model {}
@@ -17,7 +17,7 @@ User.init(
       allowNull: false,
       unique: true,
       validate: {
-        len: { args: NAME_LIMITS },
+        len: { args: NAME_LIMITS, msg: RANGE_ERROR(NAME_LIMITS) },
       },
     },
     password: {
@@ -27,14 +27,14 @@ User.init(
     fullName: {
       type: DataTypes.STRING,
       validate: {
-        len: { args: NAME_LIMITS },
+        len: { args: NAME_LIMITS, msg: RANGE_ERROR(NAME_LIMITS) },
       },
     },
     email: {
       type: DataTypes.STRING,
       allowNull: false,
       unique: true,
-      validate: { isEmail: true },
+      validate: { isEmail: { msg: `Please provide correct email format.` } },
     },
     avatar: {
       type: DataTypes.STRING,
@@ -42,7 +42,6 @@ User.init(
     },
     rating: {
       type: DataTypes.INTEGER,
-      allowNull: false,
       defaultValue: 0,
     },
     role: {

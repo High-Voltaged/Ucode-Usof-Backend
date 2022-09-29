@@ -10,6 +10,8 @@ const PASSWORD_LIMITS = [8, 20];
 
 const DATE_FORMAT = "YYYY-MM-DD";
 
+const RANGE_ERROR = (limits) => `The length should be in ${limits.join(", ")} range.`;
+
 module.exports = {
   ROLES_ENUM,
   STATUS_ENUM,
@@ -19,4 +21,5 @@ module.exports = {
   CONTENT_LIMITS,
   PASSWORD_LIMITS,
   DATE_FORMAT,
+  RANGE_ERROR,
 };

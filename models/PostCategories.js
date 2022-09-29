@@ -14,12 +14,12 @@ PostCategories.init(
     },
     postId: {
       type: DataTypes.INTEGER,
-      references: Post,
+      references: { model: Post },
       allowNull: false,
     },
     categoryId: {
       type: DataTypes.INTEGER,
-      references: Category,
+      references: { model: Category },
       allowNull: false,
     },
   },

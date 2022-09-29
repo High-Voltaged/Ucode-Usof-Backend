@@ -1,9 +1,9 @@
 const { CategoryService } = require("~/services");
 
 const getPostCategories = async (req, res) => {
-  const { postId } = req.params;
+  const { id } = req.params;
 
-  const categories = await CategoryService.getCategoriesByPostID(postId);
+  const categories = await CategoryService.getCategoriesByPostID(id);
 
   res.json(categories);
 };

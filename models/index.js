@@ -4,7 +4,6 @@ const Category = require("~/models/Category");
 const Comment = require("~/models/Comment");
 const Like = require("~/models/Like");
 const PostCategories = require("~/models/PostCategories");
-// const Token = require("~/models/Token");
 
 const authorOptions = { foreignKey: "author" };
 
@@ -28,9 +27,6 @@ Like.belongsTo(Comment);
 
 Post.hasMany(Like, { onDelete: "CASCADE" });
 Like.belongsTo(Post);
-
-// User.hasOne(Token);
-// Token.belongsTo(User);
 
 module.exports = {
   User,

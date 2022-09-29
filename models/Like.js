@@ -1,6 +1,7 @@
 const { DataTypes, Model } = require("sequelize");
 const { LIKES_ENUM } = require("~/consts/validation");
 const sequelize = require("~/database");
+const User = require("~/models/User");
 
 class Like extends Model {}
 
@@ -14,6 +15,11 @@ Like.init(
     type: {
       type: DataTypes.ENUM(...LIKES_ENUM),
       defaultValue: LIKES_ENUM[0],
+    },
+    author: {
+      type: DataTypes.INTEGER,
+      references: { model: User },
+      allowNull: false,
     },
   },
   {
