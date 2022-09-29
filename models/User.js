@@ -1,6 +1,7 @@
+const sequelize = require("~/database");
 const { DataTypes, Model } = require("sequelize");
 const { ROLES_ENUM, NAME_LIMITS } = require("~/consts/validation");
-const sequelize = require("~/database");
+const { hashPassword } = require("~/utils/password");
 
 class User extends Model {}
 
@@ -25,7 +26,6 @@ User.init(
     },
     fullName: {
       type: DataTypes.STRING,
-      allowNull: false,
       validate: {
         len: { args: NAME_LIMITS },
       },
@@ -33,6 +33,7 @@ User.init(
     email: {
       type: DataTypes.STRING,
       allowNull: false,
+      unique: true,
       validate: { isEmail: true },
     },
     avatar: {
@@ -58,5 +59,10 @@ User.init(
     modelName: "user",
   },
 );
+
+User.beforeValidate(async (user) => {
+  user.password = await hashPassword(user.password);
+  return user;
+});
 
 module.exports = User;

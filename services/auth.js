@@ -1,11 +1,30 @@
 const { User } = require("~/models");
 const ServerError = require("~/utils/errors");
-const { arePasswordsMatched, isPasswordCorrect, hashPassword } = require("~/utils/password");
+const { arePasswordsMatched, isPasswordCorrect } = require("~/utils/password");
 const TokenService = require("~/services/token");
 const EmailService = require("~/services/email");
 const emailSubjects = require("~/consts/emails");
+const { ROLES_ENUM } = require("~/consts/validation");
 
 class AuthService {
+  static async adminAuthenticate(email, password) {
+    const user = await User.findOne({ where: { email } });
+    if (!user) {
+      return null;
+    }
+
+    if (user.role !== ROLES_ENUM[1]) {
+      return null;
+    }
+
+    const passwordCorrect = await isPasswordCorrect(password, user.password);
+    if (!passwordCorrect) {
+      return null;
+    }
+
+    return user;
+  }
+
   static async register(login, email, fullName, password, passwordConfirm) {
     const userWithLogin = await User.findOne({ where: { login } });
     if (userWithLogin) {
@@ -18,9 +37,7 @@ class AuthService {
 
     arePasswordsMatched(password, passwordConfirm);
 
-    const hashedPassword = await hashPassword(password);
-
-    const { id } = await User.create({ login, password: hashedPassword, email, fullName });
+    const { id } = await User.create({ login, password, email, fullName });
 
     const confirmToken = await TokenService.generateToken({ id });
     await EmailService.sendMail(email, emailSubjects.EMAIL_CONFIRM, { confirmToken, login });
@@ -69,9 +86,8 @@ class AuthService {
     }
 
     const { id } = userData;
-    const hashedPassword = await hashPassword(password);
 
-    await User.update({ password: hashedPassword }, { where: { id } });
+    await User.update({ password }, { where: { id } });
 
     await TokenService.destroyToken(userData.jti);
   }

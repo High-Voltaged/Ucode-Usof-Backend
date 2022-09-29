@@ -1,3 +1,4 @@
+const { ADMIN_OPTIONS } = require("~/consts/database");
 const { USER_ATTRS } = require("~/consts/query-attrs");
 const { User } = require("~/models");
 const ServerError = require("~/utils/errors");
@@ -26,6 +27,15 @@ class UserService {
 
   static async deleteUser(id) {
     await User.destroy({ where: { id } });
+  }
+
+  static async createAdminIfNotExists() {
+    const admin = await User.findOne({ where: { email: ADMIN_OPTIONS.email } });
+    if (admin) {
+      return;
+    }
+
+    await User.create({ ...ADMIN_OPTIONS, isEmailConfirmed: true });
   }
 }
 

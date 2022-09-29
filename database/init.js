@@ -1,10 +1,11 @@
 const mysql = require("mysql2/promise");
-const config = require("~/config/database");
+const { DB_OPTIONS } = require("~/consts/database");
 const logger = require("~/logger/logger");
 const sequelize = require("~/database");
+const { UserService } = require("~/services");
 
 const createDBIfNotExists = async () => {
-  const { host, port, user, password, database } = config;
+  const { host, port, user, password, database } = DB_OPTIONS;
   const connection = await mysql.createConnection({ host, port, user, password });
   await connection.query(`CREATE DATABASE IF NOT EXISTS ${database};`);
 };
@@ -14,7 +15,9 @@ const databaseInit = async () => {
 
   await sequelize.sync();
 
-  logger.info("Connected to DB.");
+  await UserService.createAdminIfNotExists();
+
+  logger.info("Connected to the database.");
 };
 
 module.exports = databaseInit;

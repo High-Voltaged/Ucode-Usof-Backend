@@ -1,10 +1,10 @@
 const { Sequelize } = require("sequelize");
-const config = require("~/config/database");
+const { DB_OPTIONS } = require("~/consts/database");
 
-const sequelize = new Sequelize(config.database, config.user, config.password, {
-  host: config.host,
+const sequelize = new Sequelize(DB_OPTIONS.database, DB_OPTIONS.user, DB_OPTIONS.password, {
+  host: DB_OPTIONS.host,
   dialect: "mysql",
-  pool: { ...config.pool },
+  pool: { ...DB_OPTIONS.pool },
   logging: false,
 });
 
