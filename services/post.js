@@ -1,8 +1,9 @@
 const sequelize = require("~/database");
-const { Post, User } = require("~/models");
+const { Post, User, Category } = require("~/models");
 const { POST_ATTRS } = require("~/consts/query-attrs");
 
 const CategoryService = require("~/services/category");
+const FactoryService = require("~/services/factory");
 
 const { getPageParams, getPageData } = require("~/utils/pagination");
 const getFilters = require("~/utils/filtering");
@@ -52,7 +53,7 @@ class PostService {
 
       await Promise.all(
         categories.map(async (cID) => {
-          const category = await CategoryService.getCategory(cID);
+          const category = await FactoryService.existenceCheck(Category, cID);
           await post.addCategory(category, { transaction: t });
         }),
       );
@@ -78,7 +79,7 @@ class PostService {
           if (postCategoryIds.includes(cID)) {
             return;
           }
-          const category = await CategoryService.getCategory(cID);
+          const category = await FactoryService.getOne(Category, cID);
           await post.addCategory(category);
         }),
       );

@@ -3,14 +3,6 @@ const { Category, Post, User } = require("~/models");
 const ServerError = require("~/utils/errors");
 
 class CategoryService {
-  static async getCategory(categoryId) {
-    const category = await Category.findByPk(categoryId, { attributes: CATEGORY_ATTRS });
-    if (!category) {
-      throw new ServerError(404, `A category with ${categoryId} id was not found.`);
-    }
-    return category;
-  }
-
   static async getCategories(options) {
     return await Category.findAll({
       attributes: CATEGORY_ATTRS,
