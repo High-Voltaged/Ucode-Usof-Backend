@@ -4,7 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "nodemon app.js"
+    "start": "nodemon app.js",
+    "migrate:up": "sequelize-cli db:create && sequelize-cli db:migrate && sequelize-cli db:seed:all",
+    "migrate:down": "sequelize-cli db:migrate:undo"
   },
   "author": "SoftServe ITA",
   "license": "ISC",
