@@ -1,5 +1,12 @@
 const { FactoryService } = require("~/services");
 
+const getOne = (Model) => async (req, res) => {
+  const { id } = req.params;
+  const entity = await FactoryService.getOne(Model, id);
+
+  res.json(entity);
+};
+
 const createOne = (Model) => async (req, res) => {
   const data = req.body;
   const { id } = await FactoryService.createOne(Model, data);
@@ -39,4 +46,4 @@ const authorValidation = (Model) => async (req, _res, next) => {
   next();
 };
 
-module.exports = { createOne, updateOne, deleteOne, existenceCheck, authorValidation };
+module.exports = { getOne, createOne, updateOne, deleteOne, existenceCheck, authorValidation };
