@@ -1,7 +1,10 @@
 extends index 
 block title
-    h1 Your email needs to be confirmed
+	h1 Your email needs to be confirmed
 block description
-    p #{login}, please take a second to make sure we have got your email right:
-    a(href=`${process.env.CLIENT_URL}/?confirmToken=${confirmToken}`) Confirm your email
-    p This link is only available for an hour.
+	div
+		p #{login}, please take a moment to confirm your email by clicking the button below:
+	div
+		a(href=`${process.env.CLIENT_URL}/?confirmToken=${confirmToken}`) Confirm your email
+	div
+		p This link is only available for an hour.
