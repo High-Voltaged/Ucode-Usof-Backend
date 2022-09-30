@@ -30,7 +30,7 @@ const getDateFilter = (dateStart, dateEnd) => {
 };
 
 const getFilters = (options) => {
-  const { categories, dateStart, dateEnd, status } = options;
+  const { categories, dateStart, dateEnd, status, author, auth } = options;
   let filters = {};
 
   if (categories && categories.length) {
@@ -41,7 +41,13 @@ const getFilters = (options) => {
     filters.publishDate = getDateFilter(dateStart, dateEnd);
   }
 
-  filters.status = status || STATUS_ENUM[0];
+  if (author) {
+    filters.author = author;
+  }
+
+  if (!auth) {
+    filters.status = status || STATUS_ENUM[0];
+  }
 
   return filters;
 };

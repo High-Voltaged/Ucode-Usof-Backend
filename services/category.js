@@ -10,25 +10,6 @@ class CategoryService {
     });
   }
 
-  static async getCategoryPosts(categoryId) {
-    const categories = await Post.findAll({
-      attributes: POST_ATTRS,
-      include: [
-        {
-          model: Category,
-          attributes: [],
-          where: { id: categoryId },
-        },
-        {
-          model: User,
-          attributes: [],
-          required: true,
-        },
-      ],
-    });
-    return categories;
-  }
-
   static async getCategoriesByPostID(postId, options) {
     const categories = await CategoryService.getCategories({
       include: { model: Post, attributes: [], where: { id: postId } },

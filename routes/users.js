@@ -1,12 +1,14 @@
 const express = require("express");
-const userRouter = require("~/routes/user");
-const { getUsers } = require("~/controllers/user");
+const { getUsers, userExistenceCheck, getUser } = require("~/controllers/user");
 const { errorBoundary } = require("~/middleware");
+const profileRouter = require("~/routes/user");
 
 const router = express.Router();
 
 router.get("/", errorBoundary(getUsers));
 
-router.use("/:id", userRouter);
+router.get("/:id", errorBoundary(userExistenceCheck), errorBoundary(getUser));
+
+router.use("/profile", profileRouter);
 
 module.exports = router;

@@ -1,8 +1,8 @@
 const ServerError = require("~/utils/errors");
 
 class FactoryService {
-  static async getOne(Model, id) {
-    return await Model.findByPk(id);
+  static async getOne(Model, id, options = {}) {
+    return await Model.findByPk(id, options);
   }
 
   static async createOne(Model, data) {

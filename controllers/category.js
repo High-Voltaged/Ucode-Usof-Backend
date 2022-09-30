@@ -1,6 +1,6 @@
 const { existenceCheck, getOne } = require("~/controllers/factory");
 const { Category } = require("~/models");
-const { CategoryService } = require("~/services");
+const { CategoryService, PostService } = require("~/services");
 
 const getCategories = async (req, res) => {
   const categories = await CategoryService.getCategories();
@@ -12,8 +12,9 @@ const getCategory = getOne(Category);
 
 const getCategoryPosts = async (req, res) => {
   const { id } = req.params;
+  const { page, limit } = req.query;
 
-  const categories = await CategoryService.getCategoryPosts(id);
+  const categories = await PostService.getPosts(page, limit, { categories: [id] });
 
   res.json(categories);
 };

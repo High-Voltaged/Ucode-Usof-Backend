@@ -1,7 +1,8 @@
 const multerUpload = require("~/utils/multer");
 const { User } = require("~/models");
-const { UserService, FactoryService, UploadsService } = require("~/services");
+const { UserService, FactoryService, UploadsService, PostService } = require("~/services");
 const { existenceCheck } = require("~/controllers/factory");
+const { USER_ATTRS } = require("~/consts/query-attrs");
 
 const getUsers = async (_req, res) => {
   const users = await UserService.getUsers();
@@ -12,7 +13,7 @@ const getUsers = async (_req, res) => {
 const getUser = async (req, res) => {
   const { id } = req.params;
 
-  const user = await UserService.getUser(id);
+  const user = await FactoryService.getOne(User, id, { attributes: USER_ATTRS });
 
   res.json(user);
 };
@@ -51,11 +52,21 @@ const updateUserPhoto = async (req, res) => {
   res.sendStatus(204);
 };
 
+const getUserPosts = async (req, res) => {
+  const { id } = req.user;
+  const { page, limit } = req.query;
+
+  const posts = await PostService.getPosts(page, limit, { author: id, auth: true });
+
+  res.json(posts);
+};
+
 const userExistenceCheck = existenceCheck(User);
 
 module.exports = {
   getUsers,
   getUser,
+  getUserPosts,
   updateUser,
   deleteUser,
   uploadPhoto,

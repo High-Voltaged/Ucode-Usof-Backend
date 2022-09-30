@@ -59,7 +59,7 @@ User.init(
   },
 );
 
-User.beforeValidate(async (user) => {
+User.beforeCreate(async (user) => {
   user.password = await hashPassword(user.password);
   return user;
 });
