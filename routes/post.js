@@ -5,9 +5,11 @@ const {
 
 const { getPostCategories } = require("~/controllers/category");
 const { getPostComments, createPostComment } = require("~/controllers/comment");
+const { isLockedValidation } = require("~/controllers/factory");
 const { createLike, deleteLike, getLikes } = require("~/controllers/like");
 const { getPost, updatePost, deletePost, postExistenceCheck, postAuthorValidation } = require("~/controllers/post");
 const { errorBoundary, authMiddleware, validate } = require("~/middleware");
+const { Post } = require("~/models");
 
 const { createCommentSchema } = require("~/validation/comment");
 const { createLikeSchema } = require("~/validation/like");
@@ -22,7 +24,7 @@ router.get("/comments", errorBoundary(getPostComments));
 router.get("/categories", errorBoundary(getPostCategories));
 router.get("/like", errorBoundary(getLikes(post)));
 
-router.use(authMiddleware);
+router.use(authMiddleware, errorBoundary(isLockedValidation(Post)));
 
 router.post("/comments", validate(createCommentSchema), errorBoundary(createPostComment));
 

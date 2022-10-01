@@ -46,4 +46,12 @@ const authorValidation = (Model) => async (req, _res, next) => {
   next();
 };
 
-module.exports = { getOne, createOne, updateOne, deleteOne, existenceCheck, authorValidation };
+const isLockedValidation = (Model) => async (req, _res, next) => {
+  const { id } = req.params;
+
+  await FactoryService.isLockedValidation(Model, id);
+
+  next();
+};
+
+module.exports = { getOne, createOne, updateOne, deleteOne, existenceCheck, authorValidation, isLockedValidation };

@@ -5,8 +5,9 @@ const jwtr = new JWTR(redisClient);
 const TOKEN_SECRET = process.env.TOKEN_SECRET;
 
 class TokenService {
-  static async generateToken(payload) {
-    const expiresIn = process.env.TOKEN_EXPIRES_IN;
+  static async generateToken(payload, options = {}) {
+    const expiresIn = options.expiresIn || process.env.TOKEN_EXPIRES_IN;
+
     return await jwtr.sign(payload, TOKEN_SECRET, { expiresIn });
   }
 

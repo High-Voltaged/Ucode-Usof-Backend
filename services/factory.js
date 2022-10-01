@@ -26,11 +26,19 @@ class FactoryService {
   }
 
   static async authorValidation(Model, id, author) {
-    const entity = await Model.findOne({ where: { id } });
+    const entity = await Model.findByPk(id);
     if (author !== entity.dataValues.author) {
       throw new ServerError(401, `You don't have the rights to edit nor remove this ${Model.name} entity.`);
     }
     return entity;
+  }
+
+  static async isLockedValidation(Model, id) {
+    const entity = await FactoryService.getOne(Model, id);
+
+    if (entity && entity.isLocked) {
+      throw new ServerError(401, `This ${Model.name} is locked.`);
+    }
   }
 }
 

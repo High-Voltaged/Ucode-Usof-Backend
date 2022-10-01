@@ -5,9 +5,9 @@ const USER_JOIN_ATTRS = [
   [Sequelize.literal("user.avatar"), "authorAvatar"],
 ];
 
-const POST_ATTRS = ["id", "author", ...USER_JOIN_ATTRS, "publishDate", "title", "content", "status"];
+const POST_ATTRS = ["id", "author", ...USER_JOIN_ATTRS, "publishDate", "title", "content", "status", "isLocked"];
 
-const COMMENT_ATTRS = ["id", "author", ...USER_JOIN_ATTRS, "publishDate", "content"];
+const COMMENT_ATTRS = ["id", "author", ...USER_JOIN_ATTRS, "publishDate", "content", "isLocked"];
 
 const CATEGORY_ATTRS = ["id", "title", "description"];
 

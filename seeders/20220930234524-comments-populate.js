@@ -10,26 +10,31 @@ module.exports = {
       [
         {
           postId: 1,
+          author: 5,
           content: "First comment content here. Lorem ipsum content.",
           ...defaultOptions,
         },
         {
           postId: 2,
+          author: 4,
           content: "Second comment content here. Lorem ipsum content.",
           ...defaultOptions,
         },
         {
           postId: 3,
+          author: 2,
           content: "Third comment content here. Lorem ipsum content.",
           ...defaultOptions,
         },
         {
           postId: 4,
+          author: 3,
           content: "Fourth comment content here. Lorem ipsum content.",
           ...defaultOptions,
         },
         {
           postId: 5,
+          author: 1,
           content: "Fifth comment content here. Lorem ipsum content.",
           ...defaultOptions,
         },

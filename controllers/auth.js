@@ -6,9 +6,7 @@ const register = async (req, res) => {
 
   const { id } = await AuthService.register(login, email, fullName, password, passwordConfirm);
 
-  res.json({
-    data: { id },
-  });
+  res.json({ data: { id } });
 };
 
 const login = async (req, res) => {
@@ -18,9 +16,7 @@ const login = async (req, res) => {
 
   res.cookie(ACCESS_TOKEN, token, COOKIE_OPTIONS);
 
-  res.json({
-    accessToken: token,
-  });
+  res.json({ accessToken: token });
 };
 
 const logout = async (req, res) => {
