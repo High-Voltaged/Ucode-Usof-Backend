@@ -1,0 +1,43 @@
+version: "3.9"
+
+services:
+  mysqldb:
+    image: mysql:5.7
+    restart: unless-stopped
+    env_file: ./.env
+    environment:
+      - MYSQL_ROOT_PASSWORD=$DB_PASSWORD
+      - MYSQL_DATABASE=$DB_NAME
+    ports:
+      - $DB_LOCAL_PORT:$DB_DOCKER_PORT
+    volumes:
+      - db:/var/lib/mysql
+
+  redis:
+    image: "redis:6.0-alpine"
+    ports:
+      - $REDIS_PORT:$REDIS_PORT
+
+  app:
+    depends_on:
+      - mysqldb
+      - redis
+    links:
+      - redis
+    build: .
+    restart: unless-stopped
+    env_file: ./.env
+    ports:
+      - $SERVER_PORT:$SERVER_PORT
+    environment:
+      - DB_HOST=mysqldb
+      - DB_USER=root
+      - REDIS_HOST=redis
+    stdin_open: true
+    tty: true
+    volumes:
+      - ./:/app/
+      - /app/node_modules
+
+volumes:
+  db:

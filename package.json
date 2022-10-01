@@ -12,13 +12,14 @@
   "license": "ISC",
   "devDependencies": {
     "nodemon": "^2.0.15",
-    "prettier": "2.5.1"
+    "prettier": "2.5.1",
+    "sequelize-cli": "^6.5.1"
   },
   "dependencies": {
+    "@joi/date": "^2.1.0",
+    "adminjs": "^6.2.4",
     "@adminjs/express": "^5.0.0",
     "@adminjs/sequelize": "^3.0.0",
-    "@joi/date": "^2.1.0",
-    "adminjs": "^6.2.3",
     "bcrypt": "^5.0.1",
     "cookie-parser": "^1.4.6",
     "cors": "^2.8.5",
