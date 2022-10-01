@@ -7,7 +7,7 @@ const DB_OPTIONS = {
   host: process.env.DB_HOST,
   port: process.env.DB_PORT,
   dialect: "mysql",
-  logging: true,
+  logging: false,
 };
 
 module.exports = {
