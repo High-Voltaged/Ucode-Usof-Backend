@@ -23,7 +23,7 @@ const logout = async (req, res) => {
   const { accessToken } = req.cookies;
 
   res.clearCookie(ACCESS_TOKEN);
-  await TokenService.destroyToken(accessToken);
+  await AuthService.logout(accessToken);
 
   res.sendStatus(204);
 };

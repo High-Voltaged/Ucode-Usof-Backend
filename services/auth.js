@@ -66,6 +66,15 @@ class AuthService {
     return token;
   }
 
+  static async logout(token) {
+    const data = await TokenService.validateToken(token);
+    if (!data || !data.jti) {
+      return;
+    }
+
+    await TokenService.destroyToken(data.jti);
+  }
+
   static async sendResetPasswordEmail(email) {
     const user = await User.findOne({ where: { email } });
     if (!user) {

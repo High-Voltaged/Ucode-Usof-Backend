@@ -9,12 +9,12 @@ const serverInit = (app) => {
   app.use(options.rootPath, adminRouter);
   app.use(express.json());
   app.use(express.urlencoded({ extended: true }));
+  app.use(cookieParser());
 
   app.use("/", router);
 
   app.set("view engine", "pug");
 
-  app.use(cookieParser());
   app.use(
     cors({
       origin: process.env.CLIENT_URL,
