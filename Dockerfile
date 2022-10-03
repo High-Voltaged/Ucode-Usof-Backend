@@ -4,6 +4,8 @@ WORKDIR /app
 
 COPY package.json /app
 
+RUN mkdir -p public/images/users
+
 RUN npm install
 
 COPY . .
