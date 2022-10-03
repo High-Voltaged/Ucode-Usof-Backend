@@ -7,7 +7,14 @@ const { getPostCategories } = require("~/controllers/category");
 const { getPostComments, createPostComment } = require("~/controllers/comment");
 const { isLockedValidation } = require("~/controllers/factory");
 const { createLike, deleteLike, getLikes } = require("~/controllers/like");
-const { getPost, updatePost, deletePost, postExistenceCheck, postAuthorValidation } = require("~/controllers/post");
+const {
+  getPost,
+  updatePost,
+  deletePost,
+  postExistenceCheck,
+  postAuthorValidation,
+  postInactiveCheck,
+} = require("~/controllers/post");
 const { errorBoundary, authMiddleware, validate } = require("~/middleware");
 const { Post } = require("~/models");
 
@@ -17,7 +24,7 @@ const { updatePostSchema } = require("~/validation/post");
 
 const router = express.Router({ mergeParams: true });
 
-router.use(errorBoundary(postExistenceCheck));
+router.use(errorBoundary(postExistenceCheck), errorBoundary(postInactiveCheck));
 
 router.get("/", errorBoundary(getPost));
 router.get("/comments", errorBoundary(getPostComments));

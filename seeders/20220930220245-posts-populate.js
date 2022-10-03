@@ -9,31 +9,31 @@ module.exports = {
       "posts",
       [
         {
-          title: "Some test data title",
+          title: "Some test title",
           content: "Some test data content here. Lorem ipsum content.",
           author: 1,
           ...defaultOptions,
         },
         {
-          title: "Second data title",
+          title: "Second test title",
           content: "Some test data content here. Lorem ipsum content.",
           author: 2,
           ...defaultOptions,
         },
         {
-          title: "Third test data title",
+          title: "Third test title",
           content: "Some test data content here. Lorem ipsum content.",
           author: 3,
           ...defaultOptions,
         },
         {
-          title: "Fourth test data title",
+          title: "Fourth test title",
           content: "Some test data content here. Lorem ipsum content.",
           author: 4,
           ...defaultOptions,
         },
         {
-          title: "Fifth test data title",
+          title: "Fifth test title",
           content: "Some test data content here. Lorem ipsum content.",
           author: 5,
           ...defaultOptions,

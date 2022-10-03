@@ -96,7 +96,7 @@ class AuthService {
 
     const { id } = userData;
 
-    await User.update({ password }, { where: { id } });
+    await User.update({ password }, { where: { id }, individualHooks: true });
 
     await TokenService.destroyToken(userData.jti);
   }

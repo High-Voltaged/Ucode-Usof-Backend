@@ -38,6 +38,14 @@ const postExistenceCheck = existenceCheck(Post);
 
 const postAuthorValidation = authorValidation(Post);
 
+const postInactiveCheck = async (req, _res, next) => {
+  const { id } = req.params;
+
+  await PostService.checkIfInactive(id);
+
+  next();
+};
+
 module.exports = {
   getPosts,
   getPost,
@@ -46,4 +54,5 @@ module.exports = {
   deletePost,
   postExistenceCheck,
   postAuthorValidation,
+  postInactiveCheck,
 };

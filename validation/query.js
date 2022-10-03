@@ -9,7 +9,7 @@ const querySchema = Joi.object().keys({
 
   sort: Joi.string().valid(...Object.keys(SORT_BY)),
 
-  categories: [Joi.array().items(Joi.number()), Joi.number()],
+  categories: Joi.number(),
   dateStart: Joi.date().format(DATE_FORMAT).utc(),
   dateEnd: Joi.date().format(DATE_FORMAT).utc(),
   status: Joi.string().valid(...STATUS_ENUM),

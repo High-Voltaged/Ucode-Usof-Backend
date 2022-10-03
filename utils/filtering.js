@@ -2,15 +2,12 @@ const { Op } = require("sequelize");
 const { STATUS_ENUM } = require("~/consts/validation");
 const { Category } = require("~/models");
 
-const getCategoryFilter = (categories) => {
-  const cIds = Array.isArray(categories) ? categories : [categories];
-  let ids = cIds.map((c) => Number(c));
-
+const getCategoryFilter = (categoryId) => {
   const filter = {
     model: Category,
     attributes: [],
     required: true,
-    where: { id: { [Op.in]: ids } },
+    where: { id: categoryId },
   };
 
   return filter;

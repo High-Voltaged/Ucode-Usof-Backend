@@ -49,11 +49,16 @@ class LikeService {
 
   static async createLike(author, type, entity) {
     const like = await LikeService.getLike(author, entity);
-    if (like) {
+    const isSameLike = like && like.type === type;
+    if (isSameLike) {
       throw new ServerError(400, "You can not like/dislike more than once.");
     }
 
-    await Like.create({ type, [entity.key]: entity.value, author });
+    if (!isSameLike) {
+      await Like.create({ type, [entity.key]: entity.value, author });
+    } else {
+      await like.update({ type });
+    }
 
     const likeEntity = await FactoryService.getOne(models[entity.model], entity.value);
 

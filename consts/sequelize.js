@@ -1,5 +1,5 @@
 const DEFAULT_CURR_PAGE = 1;
-const DEFAULT_POSTS_LIMIT = 5;
+const DEFAULT_POSTS_LIMIT = 20;
 
 const SORT_BY = { date: "publishDate", likes: "likesCount" };
 const SORT_ORDER = { ASC: "ASC", DESC: "DESC" };

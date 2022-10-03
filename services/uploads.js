@@ -1,3 +1,4 @@
+const fs = require("fs");
 const path = require("path");
 const sharp = require("sharp");
 const { AVATAR_NAME, AVATAR_FILE_PATH } = require("~/consts/utils");
@@ -9,6 +10,11 @@ class UploadService {
       throw new ServerError(500, "Error saving the file.");
     }
     const resultFile = fileToSave;
+
+    const avatarPath = path.resolve(AVATAR_FILE_PATH);
+    if (!fs.existsSync(avatarPath)) {
+      fs.mkdirSync(avatarPath, { recursive: true });
+    }
 
     resultFile.filename = AVATAR_NAME(userId);
     const filePath = path.resolve(`${AVATAR_FILE_PATH}${resultFile.filename}`);

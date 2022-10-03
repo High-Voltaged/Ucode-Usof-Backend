@@ -9,6 +9,9 @@ const { getPageParams, getPageData } = require("~/utils/pagination");
 const getFilters = require("~/utils/filtering");
 const getSortOptions = require("~/utils/sorting");
 
+const ServerError = require("~/utils/errors");
+const { STATUS_ENUM } = require("~/consts/validation");
+
 class PostService {
   static async getPosts(page, customLimit, options) {
     const { limit, offset } = getPageParams(page, customLimit);
@@ -36,6 +39,14 @@ class PostService {
 
     const pagination = getPageData(posts.count.length, page, limit);
     return { posts: posts.rows, ...pagination };
+  }
+
+  static async checkIfInactive(id) {
+    const post = await FactoryService.getOne(Post, id);
+
+    if (post.status === STATUS_ENUM[1]) {
+      throw new ServerError(403, "This post is inactive.");
+    }
   }
 
   static async getPost(id) {
