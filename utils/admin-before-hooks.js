@@ -49,8 +49,12 @@ const beforeLikeCreate = async (request, _context) => {
     throw new ValidationError(errors);
   }
 
-  const entityName = (postId && post) || (commentId && comment);
+  const entityName = (postId && post) || (commentId && comment) || comment;
   const entityId = postId || commentId;
+  if (!entityId) {
+    errors.postId = { message: `You need to select a post id or a comment id.` };
+    throw new ValidationError(errors);
+  }
 
   const entity = LIKE_ENTITIES[entityName](entityId);
 

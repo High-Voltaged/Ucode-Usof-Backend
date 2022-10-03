@@ -14,11 +14,19 @@ const {
 
 AdminJS.registerAdapter({ Database, Resource });
 
+const locale = {
+  translations: {
+    labels: { loginWelcome: "Please login with an admin account" },
+    messages: { loginWelcome: "" },
+  },
+};
+
 const ADMIN_OPTIONS = {
   resources: [UserResource, PostResource, CategoryResource, CommentResource, LikeResource, PostCategoriesResource],
-  branding: {
-    companyName: "UcodeQAPlatform",
-  },
+  branding: { companyName: "UsofBackend", logo: "" },
+  locale,
+  softwareBrothers: false,
+  dashboard: { component: AdminJS.bundle("../dashboard/component") },
 };
 
 const admin = new AdminJS(ADMIN_OPTIONS);
