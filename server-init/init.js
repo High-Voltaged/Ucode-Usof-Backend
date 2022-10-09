@@ -13,12 +13,6 @@ const serverInit = (app) => {
   app.use(express.urlencoded({ extended: true }));
   app.use(cookieParser());
 
-  app.use("/", router);
-
-  app.set("view engine", "pug");
-
-  app.use(express.static(`${path.resolve(AVATAR_FILE_PATH)}`));
-
   app.use(
     cors({
       origin: process.env.CLIENT_URL,
@@ -27,6 +21,12 @@ const serverInit = (app) => {
       allowedHeaders: "Content-Type, Authorization",
     }),
   );
+  app.use("/", router);
+
+  app.set("view engine", "pug");
+
+  app.use(express.static(`${path.resolve(AVATAR_FILE_PATH)}`));
+
   app.use(errorMiddleware);
 };
 

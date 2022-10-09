@@ -5,6 +5,6 @@ block description
 	div
 		p #{login}, please take a moment to confirm your email by clicking the button below:
 	div
-		a(href=`${process.env.CLIENT_URL}/?confirmToken=${confirmToken}`) Confirm your email
+		a(href=`${process.env.CLIENT_URL}/confirm-email?confirmToken=${confirmToken}`) Confirm your email
 	div
 		p This link is only available for an hour.
