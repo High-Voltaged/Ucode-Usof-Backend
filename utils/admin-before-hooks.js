@@ -1,7 +1,7 @@
 const { ValidationError } = require("adminjs");
 const {
   LIKE_ENTITIES,
-  LIKE_ENTITY_NAMES: { post, comment },
+  LIKE_ENTITY_NAMES: { post, answer },
 } = require("~/consts/sequelize");
 const { FactoryService, LikeService } = require("~/services");
 
@@ -43,16 +43,16 @@ const beforeLikeCreate = async (request, _context) => {
 
   const errors = {};
 
-  const { postId, commentId, author } = payload;
-  if (postId && commentId) {
+  const { postId, answerId, author } = payload;
+  if (postId && answerId) {
     errors.postId = { message: `You can create a like to only one entity.` };
     throw new ValidationError(errors);
   }
 
-  const entityName = (postId && post) || (commentId && comment) || comment;
-  const entityId = postId || commentId;
+  const entityName = (postId && post) || (answerId && answer) || answer;
+  const entityId = postId || answerId;
   if (!entityId) {
-    errors.postId = { message: `You need to select a post id or a comment id.` };
+    errors.postId = { message: `You need to select a post id or an answer id.` };
     throw new ValidationError(errors);
   }
 

@@ -1,14 +1,11 @@
 const { ADMIN_TAB_NAME } = require("~/consts/utils");
 const { Comment } = require("~/models");
-const { beforeEdit } = require("~/utils/admin-before-hooks");
-
-const NO_EDIT_PROPS = ["postId", "author", "content"];
 
 const CommentResource = {
   resource: Comment,
   options: {
     actions: {
-      edit: { before: [beforeEdit(...NO_EDIT_PROPS)] },
+      edit: { isAccessible: false },
     },
     parent: ADMIN_TAB_NAME,
   },

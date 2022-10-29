@@ -4,7 +4,7 @@ const {
 } = require("~/consts/sequelize");
 
 const { getPostCategories } = require("~/controllers/category");
-const { getPostComments, createPostComment } = require("~/controllers/comment");
+const { getPostAnswers, createPostAnswer } = require("~/controllers/answer");
 const { isLockedValidation } = require("~/controllers/factory");
 const { createLike, deleteLike, getLikes } = require("~/controllers/like");
 const {
@@ -18,7 +18,7 @@ const {
 const { errorBoundary, authMiddleware, validate } = require("~/middleware");
 const { Post } = require("~/models");
 
-const { createCommentSchema } = require("~/validation/comment");
+const { createAnswerSchema } = require("~/validation/answer");
 const { createLikeSchema } = require("~/validation/like");
 const { updatePostSchema } = require("~/validation/post");
 
@@ -27,13 +27,13 @@ const router = express.Router({ mergeParams: true });
 router.use(errorBoundary(postExistenceCheck), errorBoundary(postInactiveCheck));
 
 router.get("/", errorBoundary(getPost));
-router.get("/comments", errorBoundary(getPostComments));
+router.get("/answers", errorBoundary(getPostAnswers));
 router.get("/categories", errorBoundary(getPostCategories));
 router.get("/like", errorBoundary(getLikes(post)));
 
 router.use(authMiddleware, errorBoundary(isLockedValidation(Post)));
 
-router.post("/comments", validate(createCommentSchema), errorBoundary(createPostComment));
+router.post("/answers", validate(createAnswerSchema), errorBoundary(createPostAnswer));
 
 router.post("/like", validate(createLikeSchema), errorBoundary(createLike(post)));
 router.delete("/like", errorBoundary(deleteLike(post)));

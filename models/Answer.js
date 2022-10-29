@@ -1,21 +1,21 @@
 const { DataTypes, Model } = require("sequelize");
-const { CONTENT_LIMITS, RANGE_ERROR } = require("~/consts/validation");
+const { STATUS_ENUM, CONTENT_LIMITS, RANGE_ERROR } = require("~/consts/validation");
 const sequelize = require("~/database");
 const User = require("~/models/User");
-const Answer = require("~/models/Answer");
+const Post = require("~/models/Post");
 
-class Comment extends Model {}
+class Answer extends Model {}
 
-Comment.init(
+Answer.init(
   {
     id: {
       type: DataTypes.INTEGER,
       primaryKey: true,
       autoIncrement: true,
     },
-    answerId: {
+    postId: {
       type: DataTypes.INTEGER,
-      references: { model: Answer },
+      references: { model: Post },
       allowNull: false,
     },
     author: {
@@ -29,12 +29,24 @@ Comment.init(
         len: { args: CONTENT_LIMITS, msg: RANGE_ERROR(CONTENT_LIMITS) },
       },
     },
+    status: {
+      type: DataTypes.ENUM(...STATUS_ENUM),
+      defaultValue: STATUS_ENUM[0],
+    },
+    rating: {
+      type: DataTypes.INTEGER,
+      defaultValue: 0,
+    },
+    isLocked: {
+      type: DataTypes.BOOLEAN,
+      defaultValue: false,
+    },
   },
   {
     sequelize,
-    modelName: "comment",
+    modelName: "answer",
     createdAt: "publishDate",
   },
 );
 
-module.exports = Comment;
+module.exports = Answer;

@@ -1,45 +1,35 @@
 const { Comment } = require("~/models");
-const { authorValidation, existenceCheck, updateOne, deleteOne } = require("~/controllers/factory");
+const { authorValidation, existenceCheck, deleteOne, updateOne } = require("~/controllers/factory");
 const { CommentService, FactoryService } = require("~/services");
 
-const getComment = async (req, res) => {
-  const { id } = req.params;
-  const comment = await CommentService.getComment(id);
-
-  res.json(comment);
-};
-
-const getPostComments = async (req, res) => {
+const getAnswerComments = async (req, res) => {
   const { id } = req.params;
 
-  const comments = await CommentService.getCommentsByPostID(id);
+  const comments = await CommentService.getCommentsByAnswerID(id);
 
   res.json(comments);
 };
 
-const createPostComment = async (req, res) => {
-  const { id: postId } = req.params;
+const createComment = async (req, res) => {
+  const { id: answerId } = req.params;
   const { id: author } = req.user;
   const data = req.body;
 
-  await FactoryService.createOne(Comment, { postId, author, ...data });
+  await FactoryService.createOne(Comment, { answerId, author, ...data });
 
   res.sendStatus(204);
 };
 
 const updateComment = updateOne(Comment);
 const deleteComment = deleteOne(Comment);
-
 const commentExistenceCheck = existenceCheck(Comment);
-
 const commentAuthorValidation = authorValidation(Comment);
 
 module.exports = {
-  getComment,
+  getAnswerComments,
   updateComment,
   deleteComment,
-  getPostComments,
-  createPostComment,
+  createComment,
   commentExistenceCheck,
   commentAuthorValidation,
 };

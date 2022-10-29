@@ -7,9 +7,10 @@ const {
   UserResource,
   PostResource,
   CategoryResource,
-  CommentResource,
+  AnswerResource,
   LikeResource,
   PostCategoriesResource,
+  CommentResource,
 } = require("~/resources");
 
 AdminJS.registerAdapter({ Database, Resource });
@@ -22,7 +23,15 @@ const locale = {
 };
 
 const ADMIN_OPTIONS = {
-  resources: [UserResource, PostResource, CategoryResource, CommentResource, LikeResource, PostCategoriesResource],
+  resources: [
+    UserResource,
+    PostResource,
+    CategoryResource,
+    AnswerResource,
+    CommentResource,
+    LikeResource,
+    PostCategoriesResource,
+  ],
   branding: { companyName: "UsofBackend", logo: "" },
   locale,
   softwareBrothers: false,
