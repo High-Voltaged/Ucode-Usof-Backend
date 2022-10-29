@@ -6,41 +6,41 @@ const defaultOptions = { publishDate: new Date(), updatedAt: new Date() };
 module.exports = {
   up: async (queryInterface, _Sequelize) =>
     queryInterface.bulkInsert(
-      "likes",
+      "comments",
       [
         {
-          type: "like",
-          author: 1,
-          postId: 1,
-          ...defaultOptions,
-        },
-        {
-          type: "like",
-          author: 2,
-          postId: 2,
-          ...defaultOptions,
-        },
-        {
-          type: "like",
-          author: 3,
-          postId: 3,
-          ...defaultOptions,
-        },
-        {
-          type: "like",
-          author: 4,
           answerId: 1,
+          author: 1,
+          content: "First comment content here. Lorem ipsum content.",
           ...defaultOptions,
         },
         {
-          type: "like",
-          author: 5,
           answerId: 2,
+          author: 2,
+          content: "Second comment content here. Lorem ipsum content.",
+          ...defaultOptions,
+        },
+        {
+          answerId: 3,
+          author: 3,
+          content: "Third comment content here. Lorem ipsum content.",
+          ...defaultOptions,
+        },
+        {
+          answerId: 4,
+          author: 4,
+          content: "Fourth comment content here. Lorem ipsum content.",
+          ...defaultOptions,
+        },
+        {
+          answerId: 5,
+          author: 5,
+          content: "Fifth comment content here. Lorem ipsum content.",
           ...defaultOptions,
         },
       ],
       {},
     ),
 
-  down: (queryInterface, Sequelize) => queryInterface.bulkDelete("likes", null, {}),
+  down: (queryInterface, Sequelize) => queryInterface.bulkDelete("comments", null, {}),
 };
