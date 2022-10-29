@@ -34,39 +34,44 @@ class LikeService {
     return await Like.findOne({ where: { author, [entity.key]: entity.value } });
   }
 
-  static async changeUserRating(author, type) {
-    const user = await FactoryService.getOne(User, author);
-    if (!user) {
+  static async changeEntityRating(id, type, model) {
+    const entity = await FactoryService.getOne(model, id);
+    if (!entity) {
       return;
     }
 
     if (type === LIKES_ENUM[0]) {
-      await user.increment("rating");
+      await entity.increment("rating");
     } else {
-      await user.decrement("rating");
+      await entity.decrement("rating");
     }
   }
 
   static async createLike(author, type, entity) {
     const like = await LikeService.getLike(author, entity);
-    const isSameLike = like && like.type === type;
-    if (isSameLike) {
-      throw new ServerError(400, "You can not like/dislike more than once.");
+    if (like) {
+      await LikeService.deleteLike(author, entity);
+      if (like.type === type) {
+        return;
+      }
     }
 
-    if (!isSameLike) {
-      await Like.create({ type, [entity.key]: entity.value, author });
-    } else {
-      await like.update({ type });
-    }
+    await Like.create({ type, [entity.key]: entity.value, author });
 
     const likeEntity = await FactoryService.getOne(models[entity.model], entity.value);
 
-    await LikeService.changeUserRating(likeEntity.dataValues.author, type);
+    await LikeService.changeEntityRating(likeEntity.dataValues.author, type, User);
+    await LikeService.changeEntityRating(entity.value, type, models[entity.model]);
   }
 
   static async deleteLike(author, entity) {
     const like = await LikeService.checkLikeAuthor(entity, author);
+    const type = like.type === LIKES_ENUM[0] ? LIKES_ENUM[1] : LIKES_ENUM[0];
+
+    const likeEntity = await FactoryService.getOne(models[entity.model], entity.value);
+    await LikeService.changeEntityRating(likeEntity.dataValues.author, type, User);
+    await LikeService.changeEntityRating(entity.value, type, models[entity.model]);
+
     await like.destroy();
   }
 }

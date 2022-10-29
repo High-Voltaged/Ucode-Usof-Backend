@@ -2,12 +2,12 @@ const { Op } = require("sequelize");
 const { STATUS_ENUM } = require("~/consts/validation");
 const { Category } = require("~/models");
 
-const getCategoryFilter = (categoryId) => {
+const getCategoryFilter = (category) => {
   const filter = {
     model: Category,
     attributes: [],
     required: true,
-    where: { id: categoryId },
+    where: { title: category },
   };
 
   return filter;
@@ -27,11 +27,11 @@ const getDateFilter = (dateStart, dateEnd) => {
 };
 
 const getFilters = (options) => {
-  const { categories, dateStart, dateEnd, status, author, auth } = options;
+  const { category, dateStart, dateEnd, status, author, auth } = options;
   let filters = {};
 
-  if (categories && categories.length) {
-    filters.categories = getCategoryFilter(categories);
+  if (category) {
+    filters.category = getCategoryFilter(category);
   }
 
   if (dateStart || dateEnd) {

@@ -1,8 +1,7 @@
 const sequelize = require("~/database");
-const { Post, User, Category } = require("~/models");
+const { Post, User, Category, PostCategories } = require("~/models");
 const { POST_ATTRS } = require("~/consts/query-attrs");
 
-const CategoryService = require("~/services/category");
 const FactoryService = require("~/services/factory");
 
 const { getPageParams, getPageData } = require("~/utils/pagination");
@@ -17,19 +16,19 @@ class PostService {
     const { limit, offset } = getPageParams(page, customLimit);
 
     const { sort, ...filters } = options;
-    const { categories, ...where } = getFilters(filters);
-    const { order, include: likes, attrs, group } = getSortOptions(sort);
+    const { category, ...where } = getFilters(filters);
+    const { order, group } = getSortOptions(sort);
 
     const include = [{ model: User, attributes: [], required: true }];
 
-    categories && include.push(categories);
-    likes && include.push(likes);
+    category && include.push(category);
+    category && group.push("categories.id");
 
-    const posts = await Post.findAndCountAll({
+    const { rows, count } = await Post.findAndCountAll({
       limit,
       offset,
       distinct: true,
-      attributes: [...POST_ATTRS, ...attrs],
+      attributes: POST_ATTRS,
       include,
       where,
       group,
@@ -37,8 +36,8 @@ class PostService {
       subQuery: false,
     });
 
-    const pagination = getPageData(posts.count.length, page, limit);
-    return { posts: posts.rows, ...pagination };
+    const pagination = getPageData(count.length, page, limit);
+    return { posts: rows, ...pagination };
   }
 
   static async checkIfInactive(id) {
@@ -58,16 +57,20 @@ class PostService {
     });
   }
 
+  static async removePostCategories(categories, post, t) {
+    await Promise.all(
+      categories.map(async (cID) => {
+        const category = await FactoryService.existenceCheck(Category, cID);
+        await post.addCategory(category, { transaction: t });
+      }),
+    );
+  }
+
   static async createPost(data, categories) {
     await sequelize.transaction(async (t) => {
       const post = await Post.create(data, { transaction: t });
 
-      await Promise.all(
-        categories.map(async (cID) => {
-          const category = await FactoryService.existenceCheck(Category, cID);
-          await post.addCategory(category, { transaction: t });
-        }),
-      );
+      await PostService.removePostCategories(categories, post, t);
     });
   }
 
@@ -83,17 +86,10 @@ class PostService {
         return;
       }
 
-      const postCategories = await CategoryService.getCategoriesByPostID(postId, { transaction: t });
-      const postCategoryIds = postCategories.map((c) => c.id);
-      await Promise.all(
-        categories.map(async (cID) => {
-          if (postCategoryIds.includes(cID)) {
-            return;
-          }
-          const category = await FactoryService.getOne(Category, cID);
-          await post.addCategory(category);
-        }),
-      );
+      await post.update({ categories: [] });
+      await PostCategories.destroy({ where: { postId } });
+
+      await PostService.removePostCategories(categories, post, t);
     });
   }
 }

@@ -1,5 +1,5 @@
 const { DataTypes, Model } = require("sequelize");
-const { STATUS_ENUM, TITLE_LIMITS, RANGE_ERROR, CONTENT_LIMITS, LOCK_TIME_ENUM } = require("~/consts/validation");
+const { STATUS_ENUM, TITLE_LIMITS, RANGE_ERROR, CONTENT_LIMITS } = require("~/consts/validation");
 const sequelize = require("~/database");
 const User = require("~/models/User");
 
@@ -34,6 +34,10 @@ Post.init(
       type: DataTypes.INTEGER,
       references: { model: User },
       allowNull: false,
+    },
+    rating: {
+      type: DataTypes.INTEGER,
+      defaultValue: 0,
     },
     isLocked: {
       type: DataTypes.BOOLEAN,
