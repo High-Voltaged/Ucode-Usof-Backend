@@ -23,6 +23,8 @@ services:
     image: "redis:6.0-alpine"
     ports:
       - $REDIS_PORT:$REDIS_PORT
+    volumes:
+      - db:/data
 
   app:
     depends_on:
@@ -40,6 +42,8 @@ services:
       - REDIS_HOST=redis
     stdin_open: true
     tty: true
+    volumes:
+      - ./public:/app/public
 
 volumes:
   db:
