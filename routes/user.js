@@ -6,6 +6,7 @@ const {
   resizeAndSavePhoto,
   updateUserPhoto,
   getUserPosts,
+  getMe,
 } = require("~/controllers/user");
 const authMiddleware = require("~/middleware/auth");
 const errorBoundary = require("~/middleware/error-boundary");
@@ -16,6 +17,7 @@ const router = express.Router();
 
 router.use(authMiddleware);
 
+router.get("/me", errorBoundary(getMe));
 router.get("/posts", errorBoundary(getUserPosts));
 
 router.patch("/", validate(updateSchema), errorBoundary(updateUser));

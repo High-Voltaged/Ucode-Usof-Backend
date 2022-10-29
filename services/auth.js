@@ -5,6 +5,7 @@ const TokenService = require("~/services/token");
 const EmailService = require("~/services/email");
 const emailSubjects = require("~/consts/emails");
 const { ROLES_ENUM } = require("~/consts/validation");
+const FactoryService = require("./factory");
 
 class AuthService {
   static async adminAuthenticate(email, password) {
@@ -61,9 +62,28 @@ class AuthService {
     }
 
     const { id, role } = user;
-    const token = await TokenService.generateToken({ id, role });
+    const accessToken = await TokenService.generateToken({ id, role });
+    const refreshToken = await TokenService.generateToken({ id, role });
 
-    return token;
+    return { accessToken, refreshToken };
+  }
+
+  static async refresh(token) {
+    const userData = await TokenService.validateToken(token);
+    if (!userData) {
+      throw new ServerError(400, "The refresh token is invalid.");
+    }
+
+    const user = await FactoryService.getOne(User, userData.id);
+    if (!user) {
+      throw new ServerError(404, "The user doesn't exist.");
+    }
+
+    const { id, role } = user;
+    const refreshToken = await TokenService.generateToken({ id, role });
+    const accessToken = await TokenService.generateToken({ id, role });
+
+    return { accessToken, refreshToken };
   }
 
   static async logout(token) {

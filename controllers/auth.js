@@ -1,5 +1,5 @@
-const { ACCESS_TOKEN, COOKIE_OPTIONS } = require("~/consts/requests");
-const { AuthService, TokenService } = require("~/services");
+const { tokens, COOKIE_OPTIONS } = require("~/consts/requests");
+const { AuthService } = require("~/services");
 
 const register = async (req, res) => {
   const { login, email, fullName, password, passwordConfirm } = req.body;
@@ -12,18 +12,28 @@ const register = async (req, res) => {
 const login = async (req, res) => {
   const { login, email, password } = req.body;
 
-  const token = await AuthService.login(login, email, password);
+  const { accessToken, refreshToken } = await AuthService.login(login, email, password);
 
-  res.cookie(ACCESS_TOKEN, token, COOKIE_OPTIONS);
+  res.cookie(tokens.REFRESH_TOKEN, refreshToken, COOKIE_OPTIONS);
 
-  res.json({ accessToken: token });
+  res.json({ accessToken, refreshToken });
+};
+
+const refresh = async (req, res) => {
+  const { refreshToken: token } = req.cookies;
+
+  const { accessToken, refreshToken } = await AuthService.refresh(token);
+
+  res.cookie(tokens.REFRESH_TOKEN, refreshToken, COOKIE_OPTIONS);
+
+  res.json({ accessToken, refreshToken });
 };
 
 const logout = async (req, res) => {
-  const { accessToken } = req.cookies;
+  const { refreshToken } = req.cookies;
 
-  res.clearCookie(ACCESS_TOKEN);
-  await AuthService.logout(accessToken);
+  res.clearCookie(tokens.REFRESH_TOKEN);
+  await AuthService.logout(refreshToken);
 
   res.sendStatus(204);
 };
@@ -57,6 +67,7 @@ module.exports = {
   register,
   login,
   logout,
+  refresh,
   sendResetPasswordEmail,
   updatePassword,
   confirmEmail,

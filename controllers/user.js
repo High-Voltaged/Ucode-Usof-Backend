@@ -10,6 +10,14 @@ const getUsers = async (_req, res) => {
   res.json(users);
 };
 
+const getMe = async (req, res) => {
+  const { id } = req.user;
+
+  const user = await FactoryService.getOne(User, id, { attributes: USER_ATTRS });
+
+  res.json(user);
+};
+
 const getUser = async (req, res) => {
   const { id } = req.params;
 
@@ -66,6 +74,7 @@ const userExistenceCheck = existenceCheck(User);
 module.exports = {
   getUsers,
   getUser,
+  getMe,
   getUserPosts,
   updateUser,
   deleteUser,
