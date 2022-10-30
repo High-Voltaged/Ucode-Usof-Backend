@@ -26,7 +26,7 @@ services:
     volumes:
       - db:/data
 
-  app:
+  api:
     depends_on:
       mysqldb:
         condition: service_healthy
@@ -44,6 +44,18 @@ services:
     tty: true
     volumes:
       - ./public:/app/public
+
+  web:
+    depends_on:
+      - api
+    build: ../usof-frontend
+    ports:
+      - "3000:3000"
+    env_file: ../usof-frontend/.env
+    stdin_open: true
+    tty: true
+    volumes:
+      - ../usof-frontend:/app
 
 volumes:
   db:

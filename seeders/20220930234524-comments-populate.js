@@ -9,31 +9,31 @@ module.exports = {
       "comments",
       [
         {
-          postId: 1,
+          answerId: 1,
           author: 5,
           content: "First comment content here. Lorem ipsum content.",
           ...defaultOptions,
         },
         {
-          postId: 2,
+          answerId: 2,
           author: 4,
           content: "Second comment content here. Lorem ipsum content.",
           ...defaultOptions,
         },
         {
-          postId: 3,
+          answerId: 3,
           author: 2,
           content: "Third comment content here. Lorem ipsum content.",
           ...defaultOptions,
         },
         {
-          postId: 4,
+          answerId: 4,
           author: 3,
           content: "Fourth comment content here. Lorem ipsum content.",
           ...defaultOptions,
         },
         {
-          postId: 5,
+          answerId: 5,
           author: 1,
           content: "Fifth comment content here. Lorem ipsum content.",
           ...defaultOptions,
