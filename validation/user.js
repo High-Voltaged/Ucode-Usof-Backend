@@ -3,7 +3,6 @@ const { PASSWORD_LIMITS, NAME_LIMITS } = require("~/consts/validation");
 
 const loginSchema = Joi.object().keys({
   login: Joi.string().required(),
-  email: Joi.string().email().required(),
   password: Joi.string().required(),
 });
 

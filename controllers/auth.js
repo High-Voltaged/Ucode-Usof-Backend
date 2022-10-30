@@ -10,9 +10,9 @@ const register = async (req, res) => {
 };
 
 const login = async (req, res) => {
-  const { login, email, password } = req.body;
+  const { login, password } = req.body;
 
-  const { accessToken, refreshToken } = await AuthService.login(login, email, password);
+  const { accessToken, refreshToken } = await AuthService.login(login, password);
 
   res.cookie(tokens.REFRESH_TOKEN, refreshToken, COOKIE_OPTIONS);
 

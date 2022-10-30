@@ -46,10 +46,10 @@ class AuthService {
     return { id };
   }
 
-  static async login(login, email, password) {
-    const user = await User.findOne({ where: { email, login } });
+  static async login(login, password) {
+    const user = await User.findOne({ where: { login } });
     if (!user) {
-      throw new ServerError(404, "A user with this login or email was not found");
+      throw new ServerError(404, "A user with this login was not found");
     }
 
     const passwordCorrect = await isPasswordCorrect(password, user.password);
