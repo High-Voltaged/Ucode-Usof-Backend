@@ -32,3 +32,10 @@ Then proceed:
 - Run `npm start`.
 
 You can now access the API, using the host and port, provided in the `.env` file.
+
+## Diagrams
+
+Entity-Relationship Diagram
+
+<img width="890" alt="Untitled 1 (4)" src="https://user-images.githubusercontent.com/71522782/198989042-fd4a0a34-887d-4526-ae57-f13ef970f136.png">
+
