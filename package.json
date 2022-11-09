@@ -8,8 +8,6 @@
     "migrate:up": "sequelize-cli db:create && sequelize-cli db:migrate && sequelize-cli db:seed:all",
     "migrate:down": "sequelize-cli db:migrate:undo"
   },
-  "author": "SoftServe ITA",
-  "license": "ISC",
   "devDependencies": {
     "nodemon": "^2.0.15",
     "prettier": "2.5.1",

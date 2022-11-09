@@ -32,7 +32,7 @@ const ADMIN_OPTIONS = {
     LikeResource,
     PostCategoriesResource,
   ],
-  branding: { companyName: "UsofBackend", logo: "" },
+  branding: { companyName: "TechHub", logo: "" },
   locale,
   softwareBrothers: false,
   dashboard: { component: AdminJS.bundle("../dashboard/component") },
